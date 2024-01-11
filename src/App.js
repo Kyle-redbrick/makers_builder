@@ -15,7 +15,6 @@ import "aos/dist/aos.css";
 import Sample from "./Page/Sample";
 
 const Builder = lazy(() => import("./Page/Builder"));
-const DreamEditor = lazy(() => import("./Page/DreamEditor"));
 const PythonPage = lazy(() => import("./Page/Python"));
 
 const SplashView = () => {

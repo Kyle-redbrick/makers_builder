@@ -3,8 +3,6 @@ import styled from "@emotion/styled";
 import { useCallback } from "react";
 import { postMyDreamProject } from "../../Util/HTTPRequest";
 import * as Popup from "../PopUp";
-import IntroPopup from "../../../Page/CourseDetail/Components/IntroPopup";
-import AlertPopup from "../../../Page/CourseDetail/Components/AlertPopup";
 import { isMobileOnly } from "react-device-detect";
 import { useIntl } from "react-intl";
 import ImgBtnLock from "../../../Image/my-lecture-btn-lock.svg";
@@ -161,25 +159,7 @@ export const Learn = ({
             `didIntroPopup_${myDreamProject.project.lecture.course.type}`
           );
 
-          if (isMobileOnly) {
-            return Popup.showPopUp(<AlertPopup />, {
-              defaultPadding: false,
-              dismissButton: false,
-            });
-          }
-
-          if (isShowVideo) {
-            Popup.showPopUp(
-              <IntroPopup redirectURL={redirectURL} url={videoURL} />,
-              {
-                defaultPadding: false,
-                darkmode: true,
-                mobileFullscreen: true,
-              }
-            );
-          } else {
-            window.open(redirectURL, "_blank");
-          }
+          window.open(redirectURL, "_blank");
 
           //window.open(redirectURL, "_blank");
           // if (!didIntroPopup) {

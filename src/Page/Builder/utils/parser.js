@@ -1,6 +1,5 @@
 import { WizSpritePrefix, EDITORMODE } from "../../../Common/Util/Constant";
 import ApiLibrary from "./apiLibrary";
-import ApiLibrary3d from "../../Builder3D/Util/ApiLibrary3d";
 
 const escodegen = require("escodegen");
 const acorn = require("acorn");
@@ -13,21 +12,13 @@ class Parser {
     this.apiList3d = null;
   }
   setApiLibrary() {
-    if (this.editorMode === EDITORMODE.JAVASCRIPT_3D) {
-      if (!this.apiList3d) {
-        this.apiList3d = ApiLibrary3d.getAllFunctions().map(f => {
-          return f.caption.split("(")[0];
-        });
-      }
-    } else {
-      if (!this.apiList) {
-        this.apiList = ApiLibrary.getAllFunctions().map(f => {
-          return f.caption.split("(")[0];
-        });
-        this.apiList.push("server");
-        this.apiList.push("onJoystick");
-        this.apiList.push("onDpad");
-      }
+    if (!this.apiList) {
+      this.apiList = ApiLibrary.getAllFunctions().map((f) => {
+        return f.caption.split("(")[0];
+      });
+      this.apiList.push("server");
+      this.apiList.push("onJoystick");
+      this.apiList.push("onDpad");
     }
   }
 
@@ -47,7 +38,7 @@ class Parser {
       // onComment: comments,
       // collect token ranges
       onToken: tokens,
-      ecmaVersion: 8
+      ecmaVersion: 8,
     });
     this.consume(ast);
     // attach comments using collected information
@@ -132,16 +123,16 @@ class Parser {
         type: "CallExpression",
         callee: {
           type: "Identifier",
-          name: "wait"
+          name: "wait",
         },
         arguments: [
           {
             type: "Literal",
             value: 0,
-            raw: "0"
-          }
-        ]
-      }
+            raw: "0",
+          },
+        ],
+      },
     });
     this.consume(node.test);
     this.consume(node.body);
@@ -153,16 +144,16 @@ class Parser {
         type: "CallExpression",
         callee: {
           type: "Identifier",
-          name: "wait"
+          name: "wait",
         },
         arguments: [
           {
             type: "Literal",
             value: 0,
-            raw: "0"
-          }
-        ]
-      }
+            raw: "0",
+          },
+        ],
+      },
     });
     this.consume(node.body);
     this.consume(node.test);
@@ -198,8 +189,8 @@ class Parser {
     if (node.callee.type === "Identifier") {
       const name = node.callee.name;
       if (
-        (this.apiList && this.apiList.indexOf(name) > -1) 
-        || (this.apiList3d && this.apiList3d.indexOf(name) > -1)
+        (this.apiList && this.apiList.indexOf(name) > -1) ||
+        (this.apiList3d && this.apiList3d.indexOf(name) > -1)
       ) {
         node.callee.name = `${WizSpritePrefix}.${node.callee.name}`;
       }
@@ -277,7 +268,7 @@ class Parser {
       onComment: comments,
       // collect token ranges
       onToken: tokens,
-      ecmaVersion: 8
+      ecmaVersion: 8,
     });
 
     const _ast = ast;
@@ -290,8 +281,8 @@ class Parser {
       format: {
         quotes: "double",
         semicolons: false,
-        space: ""
-      }
+        space: "",
+      },
     });
   }
 }
