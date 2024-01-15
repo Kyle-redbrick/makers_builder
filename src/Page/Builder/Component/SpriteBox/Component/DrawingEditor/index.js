@@ -25,7 +25,7 @@ class DrawingEditor extends Component {
     selectedColor: "rgba(0,0,0,1)",
     selectedToolBtn: "pen",
     drawingBlob: undefined,
-    isUploading: false
+    isUploading: false,
   };
   drawingCanvas = undefined;
   presetColors = [
@@ -38,7 +38,7 @@ class DrawingEditor extends Component {
     "#916cc5",
     "#3e4852",
     "#969fa9",
-    "#ffffff"
+    "#ffffff",
   ];
 
   constructor(props) {
@@ -81,39 +81,39 @@ class DrawingEditor extends Component {
     this.setState({ canvasHeight: height });
   };
 
-  onColorChanged = color => {
+  onColorChanged = (color) => {
     const { r, g, b, a } = color.rgb;
     let newColor = `rgba(${r},${g},${b},${a})`;
     this.drawingCanvas.setColor(newColor);
     this.setState({
-      selectedColor: newColor
+      selectedColor: newColor,
       // isColorPickerOn: false
     });
   };
 
-  handleFillBtn = e => {
+  handleFillBtn = (e) => {
     this.setState({
-      isColorPickerOn: !this.state.isColorPickerOn
+      isColorPickerOn: !this.state.isColorPickerOn,
     });
   };
 
-  handleColorDDClickOutside = e => {
+  handleColorDDClickOutside = (e) => {
     if (/FillBtn/.test(e.target.className)) return;
     if (this.state.isColorPickerOn) this.handleFillBtn(e);
   };
 
-  handleBrushSizeChanged = e => {
+  handleBrushSizeChanged = (e) => {
     if (!isNaN(e.target.value)) {
       this.drawingCanvas.setBrushWidth(Number(e.target.value));
       this.setState({ brushWidth: Number(e.target.value) });
     }
   };
 
-  addImageFromMobile = url => {
+  addImageFromMobile = (url) => {
     this.drawingCanvas.addImageFromURL(url);
   };
 
-  handleImportFileSelected = e => {
+  handleImportFileSelected = (e) => {
     const file = e.target.files[0];
     const fr = new FileReader();
     fr.onload = () => {
@@ -126,7 +126,7 @@ class DrawingEditor extends Component {
     // console.log(`canUndo :${canUndo}, canRedo :${canRedo}`);
   };
 
-  handleToolSelected = tool => {
+  handleToolSelected = (tool) => {
     switch (tool) {
       case "image":
         this.fileInput.current.click();
@@ -173,7 +173,7 @@ class DrawingEditor extends Component {
     }
   };
 
-  ceaseMobileImage = e => {
+  ceaseMobileImage = (e) => {
     e.preventDefault();
     this.props.setRequestImage(false);
   };
@@ -185,7 +185,7 @@ class DrawingEditor extends Component {
 
     this.setState(
       {
-        isUploading: true
+        isUploading: true,
       },
       async () => {
         const blob = this.state.drawingBlob;
@@ -208,7 +208,7 @@ class DrawingEditor extends Component {
         const options = {
           maxSizeMB: 0.5,
           maxWidthOrHeight: 1280,
-          useWebWorker: true
+          useWebWorker: true,
         };
 
         let compressedFile;
@@ -233,19 +233,26 @@ class DrawingEditor extends Component {
         let data = new FormData();
         data.append("file", compressedFile);
 
-        let url = undefined;
-
-        const response = await request.uploadAsset(data);
-        const json = await response.json();
-        url = json.url;
-
-        let info = this.setCustomSpriteInfo(url, "custom");
+        let url = await request.uploadCustomAsset();
+        url = await url.json();
+        const uploadUrl = url.url.uploadUrl;
+        const downloadUrl = url.url.downloadUrl;
+        const putResponse = await fetch(uploadUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "image/png",
+          },
+          body: compressedFile,
+        });
+        console.log("putResponse :", putResponse);
+        let info = this.setCustomSpriteInfo(downloadUrl, "custom");
         info.name = this.props.countUpSameName("custom", this.props.spriteIds);
-        const res = await request.addAsset(info.asset);
+        const res = await request.addCustomAsset(info.asset);
         const asset = await res.json();
+        console.log("asset :", asset);
 
+        this.props.AssetLibrary.addAsset(info.asset);
         delete info["asset"];
-        this.props.AssetLibrary.addAsset(asset);
         this.props.addSprites(selectedSceneId, [info]);
         this.props.dismiss();
       }
@@ -261,14 +268,14 @@ class DrawingEditor extends Component {
     url = url.split(".")[0];
     const assetId = url;
     const type = SpriteType.CUSTOM;
-    url = "/custom/" + url + ".png";
+    url = "/asset/custom/" + url + ".png";
 
     const asset = {
       assetId,
       type,
       defaultName: name,
       path: url,
-      thumb: url
+      thumb: url,
     };
     return { name, assetId, type, asset };
   };
@@ -280,7 +287,7 @@ class DrawingEditor extends Component {
       // brushWidth,
       isColorPickerOn,
       selectedToolBtn,
-      isUploading
+      isUploading,
     } = this.state;
     const { handleApply } = this;
     const ManageBtn = ({ name, tip } = {}) => {
@@ -342,7 +349,7 @@ class DrawingEditor extends Component {
       );
     };
 
-    const ColorDropDown = onClickOutside(props => {
+    const ColorDropDown = onClickOutside((props) => {
       const { color, presetColors, onChangeComplete } = props;
       return (
         <div className={`ColorDD`}>
@@ -470,7 +477,7 @@ class DrawingEditor extends Component {
                 className="FillBtn"
                 style={{
                   color: selectedColor,
-                  backgroundColor: selectedColor
+                  backgroundColor: selectedColor,
                 }}
               />
               {isColorPickerOn && (
@@ -504,13 +511,13 @@ class DrawingEditor extends Component {
           <FileBtn
             name="image"
             text={this.props.intl.formatMessage({
-              id: "ID_WIZLAB_DRAWING_LOAD"
+              id: "ID_WIZLAB_DRAWING_LOAD",
             })}
           />
           <FileBtn
             name="export"
             text={this.props.intl.formatMessage({
-              id: "ID_WIZLAB_DRAWING_SAVE"
+              id: "ID_WIZLAB_DRAWING_SAVE",
             })}
           />
           {/* {this.props.email && (
@@ -548,15 +555,15 @@ class DrawingEditor extends Component {
 // };
 
 export default connect(
-  state => ({
+  (state) => ({
     email: state.userinfo.email,
     requestImage: state.socket.requestImage,
     responseImage: state.socket.responseImage,
     selectedSceneId: state.interaction.selected.scene,
-    spriteIds: state.scene.scenes[state.interaction.selected.scene].spriteIds
+    spriteIds: state.scene.scenes[state.interaction.selected.scene].spriteIds,
   }),
   {
     setRequestImage: socketActions.setRequestImage,
-    addSprites: sceneActions.addSprites
+    addSprites: sceneActions.addSprites,
   }
 )(injectIntl(DrawingEditor));

@@ -754,6 +754,21 @@ export const uploadSaasPublished = () => {
   );
 };
 
+export const uploadCustomAsset = () => {
+  return fetchSaasRequest(
+    URL.API_SAAS_SERVER + "asset/customAsset/upload",
+    "GET"
+  );
+};
+
+export const addCustomAsset = (param) => {
+  return fetchSaasRequest(
+    URL.API_SAAS_SERVER + "asset/customAsset",
+    "POST",
+    param
+  );
+};
+
 /*** asset */
 export const assetsById = (param) => {
   return fetchRequest(URL.API_SERVER + "asset/getByIds", "POST", param);
