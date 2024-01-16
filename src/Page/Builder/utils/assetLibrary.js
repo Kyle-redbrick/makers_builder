@@ -323,7 +323,7 @@ class AssetLibrary {
   };
 
   get textboxThumb() {
-    return this.baseURL + "/sprite/sprite-text.svg";
+    return this.baseURL + "/asset/sprite/sprite-text.svg";
   }
 
   getAsset = (id) => {
