@@ -3,9 +3,8 @@
   position: relative;
   overflow: auto;
   background: var(--W_White);
-  width: 70vw;
+  width: 45vw;
   .DrawingEditor__CanvasHolder {
-    // max-height: 70vh;
     width: 100%;
     height: 100%;
   }
@@ -85,7 +84,7 @@
   .DrawingEditorLeftTools {
     float: left;
     width: 47px;
-    height: 332px;
+    height: 300px;
     border: 1px solid var(--W_Gray01);
     display: flex;
     flex-direction: column;
