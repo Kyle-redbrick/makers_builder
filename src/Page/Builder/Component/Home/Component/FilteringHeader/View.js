@@ -41,7 +41,7 @@ function View(props) {
           >
             {intl.formatMessage({ id: "ID_DREAM_BUILDER_HOME_ALL_KR" })}
           </li>
-          <li
+          {/* <li
             className={`dimension__item item__${
               dimension === dimensionType["3D"] ? "active" : ""
             }`}
@@ -50,7 +50,7 @@ function View(props) {
             }}
           >
             {intl.formatMessage({ id: "ID_DREAM_BUILDER_HOME_3D" })}
-          </li>
+          </li> */}
           <li
             className={`dimension__item item__${
               dimension === dimensionType["2D"] ? "active" : ""

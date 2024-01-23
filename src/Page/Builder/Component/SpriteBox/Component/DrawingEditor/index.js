@@ -75,7 +75,7 @@ class DrawingEditor extends Component {
   resizeView = () => {
     const className = "DrawingEditor__CanvasHolder";
     const width =
-      document.getElementsByClassName(className)[0].clientWidth - 300;
+      document.getElementsByClassName(className)[0].clientWidth - 35;
     const height = (width * 9) / 16;
     this.drawingCanvas.setCanvasSize(width, height);
     this.setState({ canvasHeight: height });

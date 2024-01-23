@@ -109,6 +109,7 @@ class PopUpContainer extends Component {
                   src={dismissImg}
                   alt="popup_dismissbtn"
                   onClick={dismiss}
+                  style={{ display: "none" }}
                 />
               )}
               {this.props.children}

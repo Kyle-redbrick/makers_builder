@@ -14,7 +14,7 @@ import { getColorTheme } from "../../../../utils/colorThemeUtil";
 import "emoji-mart/css/emoji-mart.css";
 import "./index.scss";
 
-const ColorDropDown = onClickOutside(props => {
+const ColorDropDown = onClickOutside((props) => {
   const { color, presetColors, onChangeComplete } = props;
   return (
     <div className={`ColorDD`}>
@@ -27,7 +27,7 @@ const ColorDropDown = onClickOutside(props => {
   );
 });
 
-const EmojiDropDown = onClickOutside(props => {
+const EmojiDropDown = onClickOutside((props) => {
   const { onSelect, i18n } = props;
   return (
     <div className={`EmojiDD`}>
@@ -46,9 +46,9 @@ class TextEditor extends Component {
       fontWeight: "normal",
       fontColor: "#000000",
       fontStyle: "normal",
-      textValue: "hello wizlab!"
+      textValue: "hello world!",
     },
-    isUploading: false
+    isUploading: false,
   };
 
   fontFamilies = AssetLibrary.fonts;
@@ -62,31 +62,31 @@ class TextEditor extends Component {
     "#916cc5",
     "#3e4852",
     "#969fa9",
-    "#ffffff"
+    "#ffffff",
   ];
 
   setTextboxProps = (id, value) => {
     let textboxProps = {
       ...this.state.textboxProps,
-      [id]: value
+      [id]: value,
     };
     this.setState({
       ...this.state,
-      textboxProps
+      textboxProps,
     });
   };
 
   // fontFamily
-  handleFontChange = value => {
+  handleFontChange = (value) => {
     this.setTextboxProps("fontFamily", value);
   };
   // fontSize, textValue
-  handleOnChange = event => {
+  handleOnChange = (event) => {
     const { id, value } = event.target;
     this.setTextboxProps(id, value);
   };
   // fontWeight, fontStyle
-  handleOnToggle = event => {
+  handleOnToggle = (event) => {
     event.preventDefault();
     const { id } = event.target;
     const { fontWeight, fontStyle } = this.state.textboxProps;
@@ -105,29 +105,29 @@ class TextEditor extends Component {
     }
   };
   // fontColor
-  handleColorPick = color => {
+  handleColorPick = (color) => {
     this.setTextboxProps("fontColor", color.hex);
   };
 
-  handlePaletteBtn = e => {
+  handlePaletteBtn = (e) => {
     const { isPaletteOn } = this.state;
     this.setState({ isPaletteOn: !isPaletteOn, isEmojiOn: false });
   };
-  handleEmojiBtn = e => {
+  handleEmojiBtn = (e) => {
     const { isEmojiOn } = this.state;
     this.setState({ isEmojiOn: !isEmojiOn, isPaletteOn: false });
   };
-  handleEmojiPick = emoji => {
+  handleEmojiPick = (emoji) => {
     let text = this.state.textboxProps.textValue;
     text += emoji.native;
     this.setTextboxProps("textValue", text);
   };
 
-  handleColorDDClickOutside = e => {
+  handleColorDDClickOutside = (e) => {
     if (/TextEditorButton__color/.test(e.target.className)) return;
     if (this.state.isPaletteOn) this.handlePaletteBtn(e);
   };
-  handleEmojiDDClickOutside = e => {
+  handleEmojiDDClickOutside = (e) => {
     if (/TextEditorButton__emoji/.test(e.target.className)) return;
     if (this.state.isEmojiOn) this.handleEmojiBtn(e);
   };
@@ -138,7 +138,7 @@ class TextEditor extends Component {
 
     this.setState(
       {
-        isUploading: true
+        isUploading: true,
       },
       async () => {
         const { textboxProps } = this.state;
@@ -150,7 +150,7 @@ class TextEditor extends Component {
     );
   };
 
-  setTextSpriteInfo = item => {
+  setTextSpriteInfo = (item) => {
     const spriteId = "textbox";
     const name = "textbox";
     const type = SpriteType.TEXT;
@@ -163,14 +163,14 @@ class TextEditor extends Component {
       fontWeight,
       fontColor,
       fontStyle,
-      textValue
+      textValue,
     } = this.state.textboxProps;
     const textAreaStyle = {
       fontFamily,
       fontSize: Number(fontSize),
       fontWeight,
       color: fontColor,
-      fontStyle
+      fontStyle,
     };
     const { isPaletteOn, isEmojiOn, isUploading } = this.state;
     const { handleApply } = this;
@@ -260,62 +260,49 @@ class TextEditor extends Component {
                     i18n={{
                       //TODO
                       search: this.props.intl.formatMessage({
-                        id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_SEARCH"
+                        id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_SEARCH",
                       }),
                       notfound: this.props.intl.formatMessage({
-                        id:
-                          "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_NOT_FOUND"
+                        id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_NOT_FOUND",
                       }),
                       skintext: this.props.intl.formatMessage({
-                        id:
-                          "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_SKIN_TEXT"
+                        id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_SKIN_TEXT",
                       }),
                       categories: {
                         search: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_SEARCH"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_SEARCH",
                         }),
                         recent: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_RECENT"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_RECENT",
                         }),
                         people: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_PEOPLE"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_PEOPLE",
                         }),
                         nature: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_NATURE"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_NATURE",
                         }),
                         foods: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_FOODS"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_FOODS",
                         }),
                         activity: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_ACTIVITY"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_ACTIVITY",
                         }),
                         places: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_PLACES"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_PLACES",
                         }),
                         objects: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_OBJECTS"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_OBJECTS",
                         }),
                         symbols: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_SYMBOLS"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_SYMBOLS",
                         }),
                         flags: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_FLAGS"
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_FLAGS",
                         }),
                         custom: this.props.intl.formatMessage({
-                          id:
-                            "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_CUSTOM"
-                        })
-                      }
+                          id: "ID_STORAGE_CONTAINER_TEXT_EDITOR_DROP_DOWN_CATEGORIES_CUSTOM",
+                        }),
+                      },
                     }}
                   />
                 )}
@@ -350,11 +337,11 @@ class TextEditor extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     selectedSceneId: state.interaction.selected.scene,
-    spriteIds: state.scene.scenes[state.interaction.selected.scene].spriteIds
+    spriteIds: state.scene.scenes[state.interaction.selected.scene].spriteIds,
   }),
   {
-    addSprites: sceneActions.addSprites
+    addSprites: sceneActions.addSprites,
   }
 )(injectIntl(TextEditor));

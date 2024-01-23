@@ -361,8 +361,8 @@ class Container extends Component {
       const img = new fabric.Image(image, {
         width: image.width,
         height: image.height,
-        left: WORLD.DEFAULT_WIDTH / 2,
-        top: WORLD.DEFAULT_HEIGHT / 2,
+        left: this.WORLD_WIDTH / 2,
+        top: this.WORLD_HEIGHT / 2,
       });
 
       img.name = name;
