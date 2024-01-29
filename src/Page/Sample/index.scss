@@ -7,27 +7,19 @@
 
 .gameView {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
   height: 100vh;
   color: #fff;
+  background-color: black;
   overflow: hidden;
 
   .gameWrapper {
     width: 100%;
-
-    // > iframe {
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   width: 1280px;
-    //   height: 720px;
-    //   border: 0;
-    // }
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-
-  // @media screen and (max-width: 1439px) {
-  //   .body {
-  //     height: calc(100vh - 55px - 47px);
-  //   }
-  // }
 }

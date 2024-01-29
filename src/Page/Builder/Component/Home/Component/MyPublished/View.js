@@ -47,7 +47,10 @@ function View(props) {
           </div>
 
           <div className="projectItem__bottom">
-            <div className="bottom__title">{item.title}</div>
+            <div className="bottom__title">
+              <span>{item.title}</span>
+              <p className="arrow_box">{item.title}</p>
+            </div>
             <div className="bottom__time">
               {item.updatedAt &&
                 item.updatedAt.split("T")[0].replaceAll("-", ".")}

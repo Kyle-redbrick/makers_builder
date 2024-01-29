@@ -59,7 +59,10 @@ function View(props) {
                     onClickProject(item.pId, item.type);
                   }}
                 >
-                  <div className="bottom__title">{item.title}</div>
+                  <div className="bottom__title">
+                    <span>{item.title}</span>
+                    <p className="arrow_box">{item.title}</p>
+                  </div>
                   <div className="bottom__time">
                     {item.updatedAt &&
                       item.updatedAt.split("T")[0].replaceAll("-", ".")}
