@@ -35,6 +35,12 @@
   }
 
   // icon
+  .publishform__icon__buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
   .publishform__icon__button {
     border: solid 1px var(--W_Gray01);
     color: var(--W_Gray03);

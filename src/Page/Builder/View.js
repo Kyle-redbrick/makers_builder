@@ -1,7 +1,9 @@
 import React from "react";
+import reactDom from "react-dom";
 import ReactToolTip from "react-tooltip";
 import { ToastContainer } from "react-toastify";
 import { PAGETYPE } from "../../Common/Util/Constant";
+import useFullscreen from "./utils/useFullScreen";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.scss";
 
@@ -88,6 +90,12 @@ export default function (props) {
   };
   const popupZIndexOffset = 2;
 
+  const onFullS = (isFull) => {
+    console.log(isFull ? "Full Screen" : "Not Full Screen");
+  };
+
+  const { element, triggerFull, exitFull } = useFullscreen(onFullS);
+
   if (isLoading) {
     return (
       <div className="Page--BUILDER">
@@ -113,7 +121,7 @@ export default function (props) {
       return <OCPView {...props} />;
     } else {
       return (
-        <div className="Page--BUILDER">
+        <div className="Page--BUILDER" ref={element}>
           {/* none ui components */}
           <Preload />
           <AudioPlayer />
@@ -150,7 +158,11 @@ export default function (props) {
             </div>
             <LeftBar handleSelectTab={handleSelectTab} />
             <div className="Content_Main">
-              <Editor pageType={pageType} />
+              <Editor
+                pageType={pageType}
+                triggerFull={triggerFull}
+                exitFull={exitFull}
+              />
             </div>
             {pageType === PAGETYPE.OCP2 || (
               <RightBar

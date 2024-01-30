@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import plusImg from "../../../../../../Image/builder/zoom-in.svg";
 import minusImg from "../../../../../../Image/builder/zoom-out.svg";
 import sortImg from "../../../../../../Image/builder/align.svg";
+import fullImg from "../../../../../../Image/builder/full-screen.svg";
 import "./index.scss";
 import ButtonIndicator from "../../../ButtonIndicator";
 
-export default function(props) {
+export default function (props) {
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const {
     // spriteName,
     // spriteIcon,
@@ -14,7 +16,9 @@ export default function(props) {
     setFontZoomOut,
     setSorting,
     selectedObject,
-    tooltip
+    tooltip,
+    triggerFull,
+    exitFull,
   } = props;
 
   let locktoggle = "off";
@@ -54,6 +58,23 @@ export default function(props) {
       <div className="EditorContainer__zoomBtns">
         <div
           className="EditorContainer__zoomBtn EditorContainer__sort"
+          onClick={() => {
+            if (!isFullScreen) {
+              triggerFull();
+              setIsFullScreen(!isFullScreen);
+            } else {
+              exitFull();
+              setIsFullScreen(!isFullScreen);
+            }
+          }}
+          // data-tip={intl.formatMessage({ id: "ID_BUILDER_CODE_SORT" })}
+        >
+          <ButtonIndicator buttonId="fullImg">
+            <img src={fullImg} alt="full" />
+          </ButtonIndicator>
+        </div>
+        <div
+          className="EditorContainer__zoomBtn EditorContainer__sort"
           onClick={setSorting}
           data-tip={intl.formatMessage({ id: "ID_BUILDER_CODE_SORT" })}
         >
@@ -85,7 +106,7 @@ export default function(props) {
         <div className="editLockInner">
           <div className="editLock--title">
             {intl.formatMessage({
-              id: "ID_EDIT_LOCK_SPRITE_TITLE"
+              id: "ID_EDIT_LOCK_SPRITE_TITLE",
             })}
           </div>
         </div>

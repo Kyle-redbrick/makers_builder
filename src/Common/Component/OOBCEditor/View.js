@@ -45,15 +45,21 @@ export default function (props) {
     onClickSelectorCategory,
     onClickSelectorClose,
     onClickZoomIn,
-    onClickZoomOut
+    onClickZoomOut,
+    triggerFull,
+    exitFull,
   } = props;
   const zoomClass = `oobceditor-zoomLevel${zoomLevel}`;
 
   return (
     <div id="oobceditor" className={`oobceditor ${zoomClass}`}>
-      <Context context={context} onScrollContext={onScrollContext} onClickContext={onClickContext}>
+      <Context
+        context={context}
+        onScrollContext={onScrollContext}
+        onClickContext={onClickContext}
+      >
         <LineGroup onDragLineOverEnd={onDragLineOverEnd}>
-          {lines.map(line => (
+          {lines.map((line) => (
             <Line
               key={line.id}
               line={line}
@@ -98,6 +104,8 @@ export default function (props) {
         isMaxZoom={isMaxZoom}
         onClickZoomIn={onClickZoomIn}
         onClickZoomOut={onClickZoomOut}
+        triggerFull={triggerFull}
+        exitFull={exitFull}
       />
       <ConstantEditor
         constantBlock={constantBlockToEdit}

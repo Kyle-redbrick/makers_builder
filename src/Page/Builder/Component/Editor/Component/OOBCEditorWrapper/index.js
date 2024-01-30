@@ -9,6 +9,7 @@ import "./index.scss";
 
 function OOBCEditorWrapper(props) {
   const oobcEditorRef = useRef(null);
+  const { triggerFull, exitFull } = props;
   const locale = props.intl.locale;
   const alert = { type: "tapioca", PopUp, showPopUp };
 
@@ -101,6 +102,8 @@ function OOBCEditorWrapper(props) {
         prototypesInfo={getPrototypeBlocksInfo()}
         onUpdateContextJSON={onUpdateContextJSON}
         onAddGlobalVar={onAddGlobalVar}
+        triggerFull={triggerFull}
+        exitFull={exitFull}
       />
       <div className="oobcEditorWrapper_lock">
         <div className="oobcEditorWrapper_lock_message">

@@ -43,7 +43,7 @@ class Container extends Component {
     this.autoCompleteApiList = this.getAutoCompleteApiList(this.apiList);
     this.apiNameSet = this.getApiNameSet(this.apiList);
     this.JSEval.setListOfReserved(
-      this.apiList.map(api => {
+      this.apiList.map((api) => {
         const cleanCaption = api.caption.replace(/\[.+\]/, "array");
         const tokens = cleanCaption.match(/[a-z|A-Z]+/g);
         return {
@@ -52,10 +52,10 @@ class Container extends Component {
           value: {
             /* Return value of a function */
             type: "object",
-            value: {}
+            value: {},
           },
           params: tokens.slice(1),
-          requiredParamCount: api.requiredParamCount || tokens.length - 1
+          requiredParamCount: api.requiredParamCount || tokens.length - 1,
         };
       })
     );
@@ -185,7 +185,7 @@ class Container extends Component {
     this.autoCompleteApiList = this.getAutoCompleteApiList(this.apiList);
     this.apiNameSet = this.getApiNameSet(this.apiList);
     this.JSEval.setListOfReserved(
-      this.apiList.map(api => {
+      this.apiList.map((api) => {
         const cleanCaption = api.caption.replace(/\[.+\]/, "array");
         const tokens = cleanCaption.match(/[a-z|A-Z]+/g);
         return {
@@ -194,10 +194,10 @@ class Container extends Component {
           value: {
             /* Return value of a function */
             type: "object",
-            value: {}
+            value: {},
           },
           params: tokens.slice(1),
-          requiredParamCount: api.requiredParamCount || tokens.length - 1
+          requiredParamCount: api.requiredParamCount || tokens.length - 1,
         };
       })
     );
@@ -217,7 +217,7 @@ class Container extends Component {
               value: value,
               meta: "function",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   editor.removeWordLeft();
                   editor.insert(value);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -233,8 +233,8 @@ class Container extends Component {
                     selectionType
                   );
                   // showSelectionWordList(selectionType);
-                }
-              }
+                },
+              },
             };
           }
         );
@@ -246,7 +246,7 @@ class Container extends Component {
 
           const valueRange = editor.find(newLine, {
             backwards: true,
-            caseSensitive: true
+            caseSensitive: true,
           });
           if (valueRange === undefined) {
             return;
@@ -267,13 +267,13 @@ class Container extends Component {
                 `case "" :`,
                 `break;`,
                 `default :`,
-                `break;`
+                `break;`,
               ];
 
               const afterNewLine = afterNewLines.join("");
               const valueRange = editor.find(afterNewLine, {
                 backwards: false,
-                caseSensitive: true
+                caseSensitive: true,
               });
               if (valueRange === undefined) {
                 return;
@@ -305,7 +305,7 @@ class Container extends Component {
           }
           const valueRange = editor.find(value, {
             backwards: true,
-            caseSensitive: true
+            caseSensitive: true,
           });
           if (valueRange === undefined) {
             return;
@@ -335,44 +335,41 @@ class Container extends Component {
         //   }
         // };
 
-        let start = prefix
-          .split("")
-          .reverse()
-          .join("");
+        let start = prefix.split("").reverse().join("");
 
         const entries = this.JSEval.FindSymbol(
           start,
           {
             start: {
               line: pos.row + 1,
-              column: pos.column
+              column: pos.column,
             },
             end: {
               line: pos.row + 1,
-              column: pos.column
-            }
+              column: pos.column,
+            },
           },
           this.symtab,
           true
         );
 
         if (Array.isArray(entries) === true) {
-          entries.forEach(entry => {
+          entries.forEach((entry) => {
             list.push({
               caption: entry.id,
               name: entry.id,
               value: entry.id,
               score: 1,
-              meta: entry.type
+              meta: entry.type,
             });
           });
         }
 
         return callback(null, list);
-      }
+      },
     };
 
-    const clearCompleterTarget = editor => {
+    const clearCompleterTarget = (editor) => {
       const start = editor.selection.getRange().start;
       const end = editor.selection.getRange().end;
       const line = editor.session.getLine(start.row);
@@ -399,13 +396,13 @@ class Container extends Component {
 
         callback(
           null,
-          names.map(name => {
+          names.map((name) => {
             return {
               caption: name,
               value: name,
               meta: "Animation",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -418,15 +415,15 @@ class Container extends Component {
 
                   const newPos = {
                     row: pos.row,
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const soundCompleter = {
@@ -434,14 +431,14 @@ class Container extends Component {
         const { soundIds } = this.props;
         callback(
           null,
-          soundIds.map(soundId => {
+          soundIds.map((soundId) => {
             const name = AssetLibrary.getSoundAsset(soundId).defaultName;
             return {
               caption: name,
               value: name,
               meta: "Sound",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -454,15 +451,15 @@ class Container extends Component {
 
                   const newPos = {
                     row: pos.row,
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const spriteCompleter = {
@@ -470,13 +467,13 @@ class Container extends Component {
         const { sprites } = this.props;
         callback(
           null,
-          Object.keys(sprites).map(name => {
+          Object.keys(sprites).map((name) => {
             return {
               caption: name,
               value: name,
               meta: "Sprite",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -499,15 +496,15 @@ class Container extends Component {
                   }
                   const newPos = {
                     row: pos.row + (newLine ? 1 : 0),
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const sceneCompleter = {
@@ -515,13 +512,13 @@ class Container extends Component {
         const { sceneIds } = this.props;
         callback(
           null,
-          sceneIds.map(name => {
+          sceneIds.map((name) => {
             return {
               caption: name,
               value: name,
               meta: "Scene",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -534,15 +531,15 @@ class Container extends Component {
 
                   const newPos = {
                     row: pos.row,
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const directionCompleter = {
@@ -550,13 +547,13 @@ class Container extends Component {
         const directions = ["left", "right", "up", "down"];
         callback(
           null,
-          directions.map(name => {
+          directions.map((name) => {
             return {
               caption: name,
               value: name,
               meta: "Direction",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -569,15 +566,15 @@ class Container extends Component {
 
                   const newPos = {
                     row: pos.row + 1,
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const keyCompleter = {
@@ -603,18 +600,18 @@ class Container extends Component {
           "f9",
           "f10",
           "f11",
-          "f12"
+          "f12",
         ];
 
         callback(
           null,
-          keys.map(name => {
+          keys.map((name) => {
             return {
               caption: name,
               value: name,
               meta: "Key",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -627,15 +624,15 @@ class Container extends Component {
 
                   const newPos = {
                     row: pos.row + 1,
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const colorCompleter = {
@@ -644,13 +641,13 @@ class Container extends Component {
         const colorNames = Object.keys(colors);
         callback(
           null,
-          colorNames.map(name => {
+          colorNames.map((name) => {
             return {
               caption: name,
               value: name,
               meta: "Color",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -663,15 +660,15 @@ class Container extends Component {
 
                   const newPos = {
                     row: pos.row,
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const textCompleter = {
@@ -689,7 +686,7 @@ class Container extends Component {
         );
 
         function getFilteredItems(items, apiNameSet) {
-          return items.filter(item => {
+          return items.filter((item) => {
             if (apiNameSet.has(item.caption)) {
               return false;
             } else if (isAlreadySignalName(item.caption)) {
@@ -723,20 +720,20 @@ class Container extends Component {
         }
 
         return completions;
-      }
+      },
     };
 
     const signalCompleter = {
       getCompletions: (editor, session, pos, prefix, callback) => {
         callback(
           null,
-          signalNames.map(name => {
+          signalNames.map((name) => {
             return {
               caption: name,
               value: name,
               meta: "Signal",
               completer: {
-                insertMatch: editor => {
+                insertMatch: (editor) => {
                   clearCompleterTarget(editor);
                   editor.insert(name);
                   if (editor.curOp && !editor.curOp.command.name) {
@@ -749,30 +746,30 @@ class Container extends Component {
 
                   const newPos = {
                     row: pos.row + 1,
-                    column: session.getLine(pos.row).length
+                    column: session.getLine(pos.row).length,
                   };
                   editor.selection.moveCursorToPosition(newPos);
-                }
-              }
+                },
+              },
             };
           })
         );
-      }
+      },
     };
 
     const globalValueCompleter = {
       getCompletions: (editor, session, pos, prefix, callback) => {
         callback(
           null,
-          globalValues.map(function(name) {
+          globalValues.map(function (name) {
             return {
               caption: name,
               value: name,
-              meta: "Global"
+              meta: "Global",
             };
           })
         );
-      }
+      },
     };
 
     this.completers = {
@@ -786,16 +783,16 @@ class Container extends Component {
       colorCompleter,
       textCompleter,
       signalCompleter,
-      globalValueCompleter
+      globalValueCompleter,
     };
 
     this.langTools.setCompleters(this.getCompleters("all"));
   }
 
-  getCompleters = selectionType => {
+  getCompleters = (selectionType) => {
     switch (selectionType) {
       case "all":
-        return Object.keys(this.completers).map(key => this.completers[key]);
+        return Object.keys(this.completers).map((key) => this.completers[key]);
       case "global":
         return [this.completers[selectionType + "ValueCompleter"]];
       default:
@@ -828,13 +825,13 @@ class Container extends Component {
     this.aceEditor.setOptions({
       enableBasicAutocompletion: true,
       enableSnippets: true,
-      enableLiveAutocompletion: true
+      enableLiveAutocompletion: true,
     });
 
     this.setAutoCompleters();
 
     // const currentEditorMode = this.props.editorMode;
-    this.aceEditor.session.on("changeMode", function(e, session) {
+    this.aceEditor.session.on("changeMode", function (e, session) {
       if (`ace/mode/${EDITORMODE.JAVASCRIPT}` === session.getMode().$id) {
         if (!!session.$worker) {
           session.$worker.send("setOptions", [
@@ -842,8 +839,8 @@ class Container extends Component {
               "-W041": false,
               "-W033": false,
               "-W104": false,
-              "-W118": false
-            }
+              "-W118": false,
+            },
           ]);
         }
       }
@@ -912,7 +909,7 @@ class Container extends Component {
 
   setSignalNames() {
     if (window.Worker && signalNameWorker) {
-      signalNameWorker.onmessage = function(e) {
+      signalNameWorker.onmessage = function (e) {
         if (e === undefined || e.data === undefined) {
           return;
         }
@@ -928,7 +925,7 @@ class Container extends Component {
 
   setGlobalValues() {
     if (window.Worker && globalValueWorker) {
-      globalValueWorker.onmessage = function(e) {
+      globalValueWorker.onmessage = function (e) {
         if (e === undefined || e.data === undefined) {
           return;
         }
@@ -943,7 +940,7 @@ class Container extends Component {
     }
   }
 
-  handleMousemove = e => {
+  handleMousemove = (e) => {
     try {
       const tooltip = document.getElementById("EditorContainer_tooltip");
       const pos = e.getDocumentPosition();
@@ -975,7 +972,7 @@ class Container extends Component {
         );
 
         // 해당 함수의 api 정보 불러오기
-        let api = this.apiList.find(api => api.name === currentFunctionName);
+        let api = this.apiList.find((api) => api.name === currentFunctionName);
         if (!api) {
           tooltip.style.display = "none";
           return;
@@ -985,7 +982,7 @@ class Container extends Component {
         const equal = api.equal;
         const caption = api.caption;
         if (equal) {
-          api = { ...this.apiList.find(api => api.name === equal) };
+          api = { ...this.apiList.find((api) => api.name === equal) };
           api.caption = caption;
         }
 
@@ -1006,7 +1003,6 @@ class Container extends Component {
     this.onChangedAt = Date.now();
     console.log("코드 변경 감지: ", this.onChangedAt);
     //
-
 
     const code = editor.getValue();
     const { selectedSceneId, selectedObject } = this.props;
@@ -1029,7 +1025,7 @@ class Container extends Component {
     //   clearTimeout(this.JSEvaluatorTimer);
     // }
     // this.JSEvaluatorTimer = setTimeout(() => {
-      this.parseJSEvaluator(code, editor);
+    this.parseJSEvaluator(code, editor);
     // }, 0);
 
     if (spriteName) {
@@ -1049,9 +1045,8 @@ class Container extends Component {
           if (!this.undoManagers[selectedSceneId]) {
             this.undoManagers[selectedSceneId] = {};
           }
-          this.undoManagers[selectedSceneId][
-            name
-          ] = new window.ace.UndoManager();
+          this.undoManagers[selectedSceneId][name] =
+            new window.ace.UndoManager();
           const undoManager = this.undoManagers[selectedSceneId][name];
           this.aceEditor.session.setUndoManager(undoManager);
         }
@@ -1108,25 +1103,29 @@ class Container extends Component {
 
     if (chatbotErrors.length > 0) {
       this.handleShowErrors(editor);
-      
-      
+
       //TTA 시험을 위한 로그 작성
       const now = Date.now();
-      console.log("에러 발생 감지: ", now, "에러 발생 감지 소요 시간 : ", now - this.onChangedAt+"ms");
+      console.log(
+        "에러 발생 감지: ",
+        now,
+        "에러 발생 감지 소요 시간 : ",
+        now - this.onChangedAt + "ms"
+      );
       //
     }
   };
 
   handleShowErrors = () => {
     const errors = this.props.errors;
-    errors.forEach(item => {
+    errors.forEach((item) => {
       item.text = this.setErrorText(item);
       item.onClick = () => {
         let end = item.loc && item.loc.end;
         if (!end) return;
         let position = {
           row: end.line - 1,
-          column: end.column
+          column: end.column,
         };
         this.aceEditor.selection.moveCursorToPosition(position);
         this.aceEditor.selection.clearSelection();
@@ -1136,13 +1135,13 @@ class Container extends Component {
     let newMsg = {
       sender: "WIZBOT",
       type: ChatbotMsgType.BOT_ERROR,
-      errors
+      errors,
     };
 
     this.props.addNewMsg([newMsg]);
   };
 
-  setErrorText = item => {
+  setErrorText = (item) => {
     // let startLine = item.loc ? item.loc.start.line : item.row + 1;
     let message = item.message;
 
@@ -1197,7 +1196,7 @@ class Container extends Component {
       function diff(rang1, rang2) {
         return {
           val1: rang1.row === rang2.row,
-          val2: rang1.column === rang2.column
+          val2: rang1.column === rang2.column,
         };
       }
 
@@ -1285,7 +1284,7 @@ class Container extends Component {
 
       // 함수 이름으로 자동완성 리스트 업데이트 및 보여주기
       let list = this.autoCompleteApiList.filter(
-        api => api.caption.indexOf(currentFunctionName) !== -1
+        (api) => api.caption.indexOf(currentFunctionName) !== -1
       );
       if (list && list[0]) {
         let selectionType = list[0].selectionType;
@@ -1317,21 +1316,20 @@ class Container extends Component {
       const parsedCode = Parser.parseForSort(code);
       this.props.setSpriteCode(selectedSceneId, spriteName, parsedCode);
       this.aceEditor.setValue(parsedCode, 1);
-      toast.info(
-        <FormattedMessage id="ID_BUILDER_CODE_SORT_COMPLETE"/>, 
-        { position: toast.POSITION.BOTTOM_RIGHT}
-      );
+      toast.info(<FormattedMessage id="ID_BUILDER_CODE_SORT_COMPLETE" />, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       TrackingUtil.sendGAEvent({
         category: "Builder",
         action: `EditorActions`,
-        label: "Align"
+        label: "Align",
       });
 
       this.aceEditor.curOp.command.name = "Return";
       this.handleOnChange(undefined, this.aceEditor);
     } catch (e) {
       toast.warn(
-        <FormattedMessage id="ID_BUILDER_CODE_SORT_AFTER_FIX_ERROR"/>, 
+        <FormattedMessage id="ID_BUILDER_CODE_SORT_AFTER_FIX_ERROR" />,
         { position: toast.POSITION.BOTTOM_RIGHT }
       );
     }
@@ -1345,7 +1343,7 @@ class Container extends Component {
     TrackingUtil.sendGAEvent({
       category: "Builder",
       action: `EditorActions`,
-      label: "ZoomIn"
+      label: "ZoomIn",
     });
     localStorage.setItem("wizFontSize", size);
     this.aceEditor.setFontSize(size);
@@ -1361,7 +1359,7 @@ class Container extends Component {
     TrackingUtil.sendGAEvent({
       category: "Builder",
       action: `EditorActions`,
-      label: "ZoomOut"
+      label: "ZoomOut",
     });
     localStorage.setItem("wizFontSize", size);
     this.aceEditor.setFontSize(size);
@@ -1418,6 +1416,8 @@ class Container extends Component {
         setSorting={setSorting}
         tooltip={tooltip}
         intl={this.props.intl}
+        triggerFull={this.props.triggerFull}
+        exitFull={this.props.exitFull}
         editorMode={this.props.editorMode}
       />
     );
@@ -1425,7 +1425,7 @@ class Container extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     selectedSceneId: state.interaction.selected.scene,
     selectedObject:
       state.interaction.selected.objects[state.interaction.selected.scene],
@@ -1438,7 +1438,7 @@ export default connect(
     errors: state.chatbot.errors,
     editorRange: state.webrtc.editorRange,
     log: state.webrtc.log,
-    editorMode: state.scene.editorMode
+    editorMode: state.scene.editorMode,
   }),
   {
     setSpriteCode: sceneActions.setSpriteCode,
@@ -1446,6 +1446,6 @@ export default connect(
     setEditorRange: webrtcActions.setEditorRange,
     removeChatbotMessages: chatbotActions.removeChatbotMessages,
     addMsg: chatActions.addMsg,
-    addNewMsg: chatbotActions.addNewMsg
+    addNewMsg: chatbotActions.addNewMsg,
   }
 )(withRouter(injectIntl(Container)));

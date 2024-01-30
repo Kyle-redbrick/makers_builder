@@ -23,7 +23,7 @@ class OOBCEditor extends Component {
       constantBlockToEdit: null,
       selectorInfo: null,
       contextMenuInfo: null,
-      zoomLevel: 0
+      zoomLevel: 0,
     };
   }
   componentDidMount() {
@@ -74,7 +74,7 @@ class OOBCEditor extends Component {
       lines: this.oobcContext.getDisplayLines(),
       currentLine: null,
       currentBlock: null,
-      selectorInfo: null
+      selectorInfo: null,
     });
   }
   onUpdateContext() {
@@ -94,7 +94,7 @@ class OOBCEditor extends Component {
         currentLine: line,
         currentBlock: null,
         selectorInfo: null,
-        contextMenuInfo: null
+        contextMenuInfo: null,
       },
       () => {
         if (line) this.scrollToLine(line);
@@ -110,7 +110,7 @@ class OOBCEditor extends Component {
           currentLine: parentLine,
           currentBlock: block,
           selectorInfo: selectorInfo,
-          contextMenuInfo: null
+          contextMenuInfo: null,
         },
         () => {
           this.scrollToLine(parentLine);
@@ -119,7 +119,7 @@ class OOBCEditor extends Component {
     } else {
       this.setState({
         currentBlock: null,
-        selectorInfo: null
+        selectorInfo: null,
       });
     }
   }
@@ -127,7 +127,7 @@ class OOBCEditor extends Component {
     if (!this.state.selectorInfo) return;
     const selectorInfo = {
       ...this.state.selectorInfo,
-      currentCategory: category
+      currentCategory: category,
     };
     this.setState({ selectorInfo });
   }
@@ -161,7 +161,7 @@ class OOBCEditor extends Component {
       message: formatWithId("ID_OOBC_ALERT_REPLACE_BLOCK_MESSAGE"),
       confirmButtonName: Localization.formatWithId("ID_OOBC_GENERAL_REPLACE"),
       confirmButtonAction: confirm,
-      cancelButtonName: Localization.formatWithId("ID_OOBC_GENERAL_CANCEL")
+      cancelButtonName: Localization.formatWithId("ID_OOBC_GENERAL_CANCEL"),
     });
   }
   coverCurrentBlockWith(instanceBlock) {
@@ -184,7 +184,7 @@ class OOBCEditor extends Component {
     }
   }
   shouldOpenConstantEditorFor(block) {
-    switch(block.type) {
+    switch (block.type) {
       case OOBC.TYPE.BLOCK.NUMBERBLOCK:
       case OOBC.TYPE.BLOCK.STRINGBLOCK:
       case OOBC.TYPE.BLOCK.KEY:
@@ -196,7 +196,7 @@ class OOBCEditor extends Component {
     }
   }
 
-  onClickLine = line => {
+  onClickLine = (line) => {
     const { currentLine } = this.state;
     if (line === currentLine) {
       this.setCurrentLine(null);
@@ -205,7 +205,7 @@ class OOBCEditor extends Component {
       this.setCurrentLine(line);
     }
   };
-  onClickFoldLine = line => {
+  onClickFoldLine = (line) => {
     Sound.playWithId("touchLine");
     if (line.folded) {
       line.unfold();
@@ -228,7 +228,7 @@ class OOBCEditor extends Component {
 
     if (didMove) this.onUpdateContext();
   };
-  onDragLineOverEnd = dragLine => {
+  onDragLineOverEnd = (dragLine) => {
     const didMove = dragLine.moveToLastOfContext();
     if (didMove) this.onUpdateContext();
   };
@@ -271,7 +271,7 @@ class OOBCEditor extends Component {
       this.scrollInterval = undefined;
     }
   }
-  onDragLineBegin = line => {
+  onDragLineBegin = (line) => {
     this.prevLineFolded = line.folded;
     this.prevBlock = this.state.currentBlock;
     this.setCurrentBlock(null);
@@ -281,7 +281,7 @@ class OOBCEditor extends Component {
       this.onUpdateContext();
     }
   };
-  onDragLineEnd = line => {
+  onDragLineEnd = (line) => {
     this.setCurrentBlock(this.prevBlock);
     if (!this.prevLineFolded) {
       line.unfold();
@@ -310,9 +310,9 @@ class OOBCEditor extends Component {
   onScrollContext = () => {
     this.clearLineLongTouchTimeout();
   };
-  onClickContext = () => { 
+  onClickContext = () => {
     this.setCurrentLine(null);
-  }
+  };
 
   onTouchLineStart = (line, position) => {
     this.lineLongTouchPosition = position;
@@ -320,10 +320,10 @@ class OOBCEditor extends Component {
       this.onLineLongTouch(line, this.lineLongTouchPosition);
     });
   };
-  onTouchLineMove = position => {
+  onTouchLineMove = (position) => {
     this.lineLongTouchPosition = position;
   };
-  onTouchLineEnd = line => {
+  onTouchLineEnd = (line) => {
     this.clearLineLongTouchTimeout();
   };
   onLineLongTouch = (line, position) => {
@@ -341,21 +341,20 @@ class OOBCEditor extends Component {
     }
   }
 
-  onClickInstanceBlock = instanceBlock => {
+  onClickInstanceBlock = (instanceBlock) => {
     const { currentBlock } = this.state;
     if (instanceBlock !== currentBlock) {
       Sound.playWithId("contextBlock");
       this.setCurrentBlock(instanceBlock);
     }
   };
-  onClickPrototypeBlock = prototypeBlock => {
+  onClickPrototypeBlock = (prototypeBlock) => {
     if (this.isDisabledPrototypeBlock(prototypeBlock)) {
       this.onClickDisabledPrototypeBlock(prototypeBlock);
     } else {
       const { currentBlock } = this.state;
-      const instanceBlock = currentBlock.createInstanceBlockWith(
-        prototypeBlock
-      );
+      const instanceBlock =
+        currentBlock.createInstanceBlockWith(prototypeBlock);
       Sound.playWithId("prototypeBlock");
       this.replaceOrCoverCurrentBlockWith(instanceBlock);
     }
@@ -374,13 +373,13 @@ class OOBCEditor extends Component {
       Alert.alert({
         title: formatWithId("ID_OOBC_ALERT_DISABLED_BLOCK_TITLE"),
         message: formatWithId("ID_OOBC_ALERT_DISABLED_ANIMATEBLOCK_MESSAGE"),
-        buttonName: formatWithId("ID_OOBC_GENERAL_CONFIRM")
+        buttonName: formatWithId("ID_OOBC_GENERAL_CONFIRM"),
       });
     } else {
       Alert.alert({
         title: formatWithId("ID_OOBC_ALERT_DISABLED_BLOCK_TITLE"),
         message: formatWithId("ID_OOBC_ALERT_DISABLED_BLOCK_MESSAGE"),
-        buttonName: formatWithId("ID_OOBC_GENERAL_CONFIRM")
+        buttonName: formatWithId("ID_OOBC_GENERAL_CONFIRM"),
       });
     }
   }
@@ -396,10 +395,10 @@ class OOBCEditor extends Component {
       placeholder: formatWithId("ID_OOBC_ALERT_ADDVAR_PLACEHOLDER"),
       confirmButtonName: formatWithId("ID_OOBC_GENERAL_CONFIRM"),
       cancelButtonName: formatWithId("ID_OOBC_GENERAL_CANCEL"),
-      confirmButtonAction: this.onConfirmGlobalVarPrompt
+      confirmButtonAction: this.onConfirmGlobalVarPrompt,
     });
   }
-  onConfirmGlobalVarPrompt = name => {
+  onConfirmGlobalVarPrompt = (name) => {
     if (this.checkGlobalVarAndAlertIfInvalid(name)) {
       const { onAddGlobalVar } = this.props;
       if (onAddGlobalVar) onAddGlobalVar(name);
@@ -412,7 +411,7 @@ class OOBCEditor extends Component {
         title: formatWithId("ID_OOBC_ALERT_ADDVAR_TITLE"),
         message: formatWithId("ID_OOBC_ALERT_ADDVAR_INVALIDNAME_MESSAGE"),
         buttonName: Localization.formatWithId("ID_OOBC_GENERAL_CONFIRM"),
-        buttonAction: this.onClickAddGlobalVar
+        buttonAction: this.onClickAddGlobalVar,
       });
       return false;
     }
@@ -421,7 +420,7 @@ class OOBCEditor extends Component {
         title: formatWithId("ID_OOBC_ALERT_ADDVAR_TITLE"),
         message: formatWithId("ID_OOBC_ALERT_ADDVAR_EXISTNAME_MESSAGE"),
         buttonName: Localization.formatWithId("ID_OOBC_GENERAL_CONFIRM"),
-        buttonAction: this.onClickAddGlobalVar
+        buttonAction: this.onClickAddGlobalVar,
       });
       return false;
     }
@@ -435,7 +434,7 @@ class OOBCEditor extends Component {
     return variables.includes(name);
   }
 
-  onClickConstantBlockEdit = constantBlock => {
+  onClickConstantBlockEdit = (constantBlock) => {
     this.setConstantBlockToEdit(constantBlock);
   };
   onClickConstantEditorOverlay = () => {
@@ -447,7 +446,7 @@ class OOBCEditor extends Component {
     this.setConstantBlockToEdit(null);
     this.setCurrentBlock(constantBlock.findNextEmptyBlock());
   };
-  onClickConstantEditorCancel = constantBlock => {
+  onClickConstantEditorCancel = (constantBlock) => {
     this.updateDefaultConstantDataIfNull(constantBlock);
     this.setConstantBlockToEdit(null);
   };
@@ -468,14 +467,14 @@ class OOBCEditor extends Component {
       this.onUpdateContext();
     }
   }
-  onChangeContantEditorData = data => {
+  onChangeContantEditorData = (data) => {
     const { onChangeConstantEditorValue } = this.props;
     if (onChangeConstantEditorValue) {
       onChangeConstantEditorValue(data);
     }
   };
 
-  onClickSelectorCategory = category => {
+  onClickSelectorCategory = (category) => {
     Sound.playWithId("blockCategory");
     this.setCurrentCategory(category);
   };
@@ -487,11 +486,12 @@ class OOBCEditor extends Component {
       categories: [],
       currentCategory: null,
       prototypeBlocksOf: {},
-      disabledPrototypeBlocks: []
+      disabledPrototypeBlocks: [],
     };
-    const replaceablePrototypeBlocks = instanceBlock.filterPrototypeBlocksReplaceable(
-      this.oobcContext.getPrototypeBlocks()
-    );
+    const replaceablePrototypeBlocks =
+      instanceBlock.filterPrototypeBlocksReplaceable(
+        this.oobcContext.getPrototypeBlocks()
+      );
     const disabledPrototypeBlocks = instanceBlock.filterPrototypeBlocksDisabled(
       replaceablePrototypeBlocks
     );
@@ -505,12 +505,14 @@ class OOBCEditor extends Component {
       }
       selectorInfo.prototypeBlocksOf[category].push(prototypeBlock);
     }
-    if(instanceBlock.checkBlockReplaceable(new OOBC.Variable())) {
+    if (instanceBlock.checkBlockReplaceable(new OOBC.Variable())) {
       if (!selectorInfo.categories.includes(OOBC.TYPE.CATEGORY.VARIABLE)) {
         selectorInfo.categories.push(OOBC.TYPE.CATEGORY.VARIABLE);
       }
-      selectorInfo.prototypeBlocksOf[OOBC.TYPE.CATEGORY.VARIABLE] = 
-      this.oobcContext.prototypeBlocks.filter(block => block.category === OOBC.TYPE.CATEGORY.VARIABLE);
+      selectorInfo.prototypeBlocksOf[OOBC.TYPE.CATEGORY.VARIABLE] =
+        this.oobcContext.prototypeBlocks.filter(
+          (block) => block.category === OOBC.TYPE.CATEGORY.VARIABLE
+        );
     }
     this.sortCategories(selectorInfo.categories);
     selectorInfo.currentCategory = selectorInfo.categories[0];
@@ -526,7 +528,7 @@ class OOBCEditor extends Component {
       OOBC.TYPE.CATEGORY.UTIL,
       OOBC.TYPE.CATEGORY.VARIABLE,
       OOBC.TYPE.CATEGORY.FUNCTIONBLOCK,
-      OOBC.TYPE.CATEGORY.CALLBACK
+      OOBC.TYPE.CATEGORY.CALLBACK,
     ];
     categories.sort((a, b) => priority.indexOf(a) - priority.indexOf(b));
   }
@@ -612,7 +614,7 @@ class OOBCEditor extends Component {
       this.setState({
         currentLine: contextMenuInfo.line,
         currentBlock: null,
-        contextMenuInfo
+        contextMenuInfo,
       });
     });
   }
@@ -669,7 +671,7 @@ class OOBCEditor extends Component {
           this.setCurrentLine(null);
           this.onUpdateContext();
         },
-        cancelButtonName: Localization.formatWithId("ID_OOBC_GENERAL_CANCEL")
+        cancelButtonName: Localization.formatWithId("ID_OOBC_GENERAL_CANCEL"),
       });
     }
   }
@@ -731,9 +733,10 @@ class OOBCEditor extends Component {
     return element;
   }
   getPrototypeBlockWithData(data) {
-    const currentCategoryPrototypeBlocks = this.getCurrentCategoryPrototypeBlocks();
+    const currentCategoryPrototypeBlocks =
+      this.getCurrentCategoryPrototypeBlocks();
     const prototypeBlockWithData = currentCategoryPrototypeBlocks.find(
-      prototypeBlock => prototypeBlock.data === data
+      (prototypeBlock) => prototypeBlock.data === data
     );
     return prototypeBlockWithData;
   }
@@ -765,7 +768,7 @@ class OOBCEditor extends Component {
   clearKeyListener() {
     // window.removeEventListener("keyup", this.keyListener);
   }
-  keyListener = event => {
+  keyListener = (event) => {
     const { key } = event;
     switch (key) {
       case "Backspace":
@@ -851,7 +854,7 @@ class OOBCEditor extends Component {
       constantBlockToEdit,
       selectorInfo,
       contextMenuInfo,
-      zoomLevel
+      zoomLevel,
     } = this.state;
     const isMinZoom = this.minZoomLevel === zoomLevel;
     const isMaxZoom = this.maxZoomLevel === zoomLevel;
@@ -894,6 +897,8 @@ class OOBCEditor extends Component {
         onClickSelectorClose={this.onClickSelectorClose}
         onClickZoomIn={this.onClickZoomIn}
         onClickZoomOut={this.onClickZoomOut}
+        triggerFull={this.props.triggerFull}
+        exitFull={this.props.exitFull}
       />
     );
   }

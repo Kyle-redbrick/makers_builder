@@ -8,7 +8,10 @@ import * as userInfoActions from "../../../../Common/Store/Reducer/UserInfo";
 import * as projectActions from "../../../Builder/Store/Reducer/project";
 import { PAGETYPE } from "../../../../Common/Util/Constant";
 import checkBlockedUser from "../../../../Common/Util/CheckBlockedUser";
-import PopUp, { showPopUp } from "../../../../Common/Component/PopUp";
+import PopUp, {
+  showPopUp,
+  showPopUpBuilder,
+} from "../../../../Common/Component/PopUp";
 import InstantMobileRun from "../../../../Common/Component/InstantMobileRun";
 import QRPopup from "../../../../Common/Component/QRPopup";
 import Publish from "../../../../Common/Component/Publish";
@@ -79,12 +82,15 @@ class Container extends Component {
       action: `MenuActions`,
       label: "Share",
     });
-    showPopUp(<QRPopup project={this.props.project} isBuilder={true} />, {
-      store,
-      defaultPadding: false,
-      dismissOverlay: true,
-      overflow: true,
-    });
+    showPopUpBuilder(
+      <QRPopup project={this.props.project} isBuilder={true} />,
+      {
+        store,
+        defaultPadding: false,
+        dismissOverlay: true,
+        overflow: true,
+      }
+    );
   };
 
   clickPublishPopup = () => {
@@ -109,7 +115,7 @@ class Container extends Component {
       this.props.setLog({ publish: true });
 
       if (this.pageType === PAGETYPE.TUTORIAL) {
-        showPopUp(
+        showPopUpBuilder(
           <Publish
             isDeveloping={true}
             isBuilder={true}
@@ -123,7 +129,7 @@ class Container extends Component {
           }
         );
       } else {
-        showPopUp(<Publish isDeveloping={true} isBuilder={true} />, {
+        showPopUpBuilder(<Publish isDeveloping={true} isBuilder={true} />, {
           store,
           dismissOverlay: false,
           defaultPadding: false,
@@ -184,7 +190,10 @@ class Container extends Component {
   };
 
   openLoginPopup = () => {
-    showPopUp(<SignIn isBuilder={true} />, { store, mobileFullscreen: true });
+    showPopUp(<SignIn isBuilder={true} />, {
+      store,
+      mobileFullscreen: true,
+    });
   };
 
   openHelp = () => {
