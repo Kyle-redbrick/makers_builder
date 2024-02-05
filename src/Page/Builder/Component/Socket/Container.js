@@ -34,8 +34,7 @@ class Container extends Component {
         interaction: { ...interaction, isPublished: undefined },
         preview: { ...preview, isPlaying: false },
       };
-
-      let params = { state: state };
+      let params = { state: state, screenMode: state.preview.screenMode };
 
       request.updateSaasProject({ params, pId }).then((res) => res.json());
     }, 3000);

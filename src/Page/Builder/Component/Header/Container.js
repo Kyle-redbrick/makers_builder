@@ -8,10 +8,7 @@ import * as userInfoActions from "../../../../Common/Store/Reducer/UserInfo";
 import * as projectActions from "../../../Builder/Store/Reducer/project";
 import { PAGETYPE } from "../../../../Common/Util/Constant";
 import checkBlockedUser from "../../../../Common/Util/CheckBlockedUser";
-import PopUp, {
-  showPopUp,
-  showPopUpBuilder,
-} from "../../../../Common/Component/PopUp";
+import PopUp, { showPopUp } from "../../../../Common/Component/PopUp";
 import InstantMobileRun from "../../../../Common/Component/InstantMobileRun";
 import QRPopup from "../../../../Common/Component/QRPopup";
 import Publish from "../../../../Common/Component/Publish";
@@ -82,15 +79,12 @@ class Container extends Component {
       action: `MenuActions`,
       label: "Share",
     });
-    showPopUpBuilder(
-      <QRPopup project={this.props.project} isBuilder={true} />,
-      {
-        store,
-        defaultPadding: false,
-        dismissOverlay: true,
-        overflow: true,
-      }
-    );
+    showPopUp(<QRPopup project={this.props.project} isBuilder={true} />, {
+      store,
+      defaultPadding: false,
+      dismissOverlay: true,
+      overflow: true,
+    });
   };
 
   clickPublishPopup = () => {
@@ -115,7 +109,7 @@ class Container extends Component {
       this.props.setLog({ publish: true });
 
       if (this.pageType === PAGETYPE.TUTORIAL) {
-        showPopUpBuilder(
+        showPopUp(
           <Publish
             isDeveloping={true}
             isBuilder={true}
@@ -129,7 +123,7 @@ class Container extends Component {
           }
         );
       } else {
-        showPopUpBuilder(<Publish isDeveloping={true} isBuilder={true} />, {
+        showPopUp(<Publish isDeveloping={true} isBuilder={true} />, {
           store,
           dismissOverlay: false,
           defaultPadding: false,

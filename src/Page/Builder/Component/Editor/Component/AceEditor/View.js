@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import plusImg from "../../../../../../Image/builder/zoom-in.svg";
 import minusImg from "../../../../../../Image/builder/zoom-out.svg";
 import sortImg from "../../../../../../Image/builder/align.svg";
@@ -7,7 +7,6 @@ import "./index.scss";
 import ButtonIndicator from "../../../ButtonIndicator";
 
 export default function (props) {
-  const [isFullScreen, setIsFullScreen] = useState(false);
   const {
     // spriteName,
     // spriteIcon,
@@ -17,9 +16,35 @@ export default function (props) {
     setSorting,
     selectedObject,
     tooltip,
-    triggerFull,
-    exitFull,
   } = props;
+
+  const handleClickFullScreen = (event) => {
+    let element = document.body;
+
+    if (event instanceof HTMLElement) {
+      element = event;
+    }
+
+    let isFullscreen =
+      document.webkitIsFullScreen || document.mozFullScreen || false;
+
+    element.requestFullScreen =
+      element.requestFullScreen ||
+      element.webkitRequestFullScreen ||
+      element.mozRequestFullScreen ||
+      function () {
+        return false;
+      };
+    document.cancelFullScreen =
+      document.cancelFullScreen ||
+      document.webkitCancelFullScreen ||
+      document.mozCancelFullScreen ||
+      function () {
+        return false;
+      };
+
+    isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
+  };
 
   let locktoggle = "off";
   if (selectedObject) {
@@ -58,15 +83,7 @@ export default function (props) {
       <div className="EditorContainer__zoomBtns">
         <div
           className="EditorContainer__zoomBtn EditorContainer__sort"
-          onClick={() => {
-            if (!isFullScreen) {
-              triggerFull();
-              setIsFullScreen(!isFullScreen);
-            } else {
-              exitFull();
-              setIsFullScreen(!isFullScreen);
-            }
-          }}
+          onClick={handleClickFullScreen}
           // data-tip={intl.formatMessage({ id: "ID_BUILDER_CODE_SORT" })}
         >
           <ButtonIndicator buttonId="fullImg">

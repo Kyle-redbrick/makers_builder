@@ -182,68 +182,6 @@ export const showPopUp = (content, options = {}, isBackTrans) => {
   }
 };
 
-export const showPopUpBuilder = (content, options = {}, isBackTrans) => {
-  const root = document.getElementById("root");
-  let popup = undefined;
-  const builder = root.querySelector("div.Page--BUILDER");
-  if (!popup) {
-    popup = document.createElement("div");
-    popup.setAttribute("id", "popup");
-    popup.classList.add(localStorage.getItem("lang"));
-    builder.appendChild(popup);
-    window.onhashchange = function () {
-      showPopUpBuilder();
-    };
-  }
-
-  const dismiss = () => {
-    ReactDOM.render(null, popup);
-    document.body.classList.toggle("body-unsrollable");
-  };
-  dismiss();
-
-  const {
-    store = defaultStore,
-    dismissButton = true,
-    dismissOverlay = false,
-    defaultPadding = true,
-    scrollable = false,
-    darkmode = false,
-    overflow = false,
-    mobileFullscreen = false,
-    enterToConfirm = true,
-    pythonPopup = false,
-  } = options;
-
-  if (content) {
-    setTimeout(() => {
-      document.body.classList.add("body-unsrollable");
-      ReactDOM.render(
-        <IntlProvider locale={lang} messages={locale[lang]}>
-          <Provider store={store}>
-            <PopUpContainer
-              dismiss={dismiss}
-              dismissButton={dismissButton}
-              dismissOverlay={dismissOverlay}
-              defaultPadding={defaultPadding}
-              scrollable={scrollable}
-              darkmode={darkmode}
-              overflow={overflow}
-              mobileFullscreen={mobileFullscreen}
-              enterToConfirm={enterToConfirm}
-              pythonPopup={pythonPopup}
-              isBackTrans={isBackTrans}
-            >
-              {React.cloneElement(content, { dismiss })}
-            </PopUpContainer>
-          </Provider>
-        </IntlProvider>,
-        popup
-      );
-    }, 10);
-  }
-};
-
 export const hidePopUp = () => {
   let popup = document.getElementById("popup");
   if (popup) {
