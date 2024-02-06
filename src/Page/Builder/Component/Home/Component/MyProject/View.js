@@ -6,6 +6,7 @@ import projectDetailIcon from "../../../../../../Image/icon-more.svg";
 import editIcon from "../../../../../../Image/icon-edit.svg";
 import copyIcon from "../../../../../../Image/copy.svg";
 import deleteIcon from "../../../../../../Image/delete.svg";
+import PopUp, { showPopUp } from "../../../../../../Common/Component/PopUp";
 
 function View(props) {
   const {
@@ -90,7 +91,22 @@ function View(props) {
                       <img src={copyIcon} alt="" />
                       {intl.formatMessage({ id: "ID_BUILDER_MAIN_COPY" })}
                     </li>
-                    <li onClick={() => handleDelete(item.id, fetchMyProjects)}>
+                    <li
+                      onClick={() => {
+                        showPopUp(
+                          <PopUp.TwoButton
+                            title="프로젝트 삭제"
+                            subtitle={`프로젝트를 지우시겠습니까? \n삭제하시면 복구할 수 없습니다.`}
+                            confirmButtonName="삭제"
+                            confirmAction={() =>
+                              handleDelete(item.id, fetchMyProjects)
+                            }
+                            cancelButtonName="취소"
+                            cancelAction={() => {}}
+                          />
+                        );
+                      }}
+                    >
                       <img src={deleteIcon} alt="" />
                       {intl.formatMessage({ id: "ID_BUILDER_MAIN_DELETE" })}
                     </li>

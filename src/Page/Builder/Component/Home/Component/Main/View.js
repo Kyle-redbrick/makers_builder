@@ -3,6 +3,7 @@ import { injectIntl } from "react-intl";
 import "./index.scss";
 import { useState } from "react";
 import Game2dIcon from "../../../../../../Image/icon-2d.svg";
+import PopUp, { showPopUp } from "../../../../../../Common/Component/PopUp";
 
 import projectDetailIcon from "../../../../../../Image/icon-more.svg";
 import editIcon from "../../../../../../Image/icon-edit.svg";
@@ -234,7 +235,22 @@ const ProjectItem = (props) => {
             </li>
             <li
               onClick={() => {
-                handleDelete(project.id, fetchMyProjects, fetchMyPublished);
+                showPopUp(
+                  <PopUp.TwoButton
+                    title="프로젝트 삭제"
+                    subtitle={`프로젝트를 지우시겠습니까? \n삭제하시면 복구할 수 없습니다.`}
+                    confirmButtonName="삭제"
+                    confirmAction={() =>
+                      handleDelete(
+                        project.id,
+                        fetchMyProjects,
+                        fetchMyPublished
+                      )
+                    }
+                    cancelButtonName="취소"
+                    cancelAction={() => {}}
+                  />
+                );
               }}
             >
               <img src={deleteIcon} alt="" />

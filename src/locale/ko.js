@@ -502,7 +502,7 @@ const ko = {
   ID_BUILDER_CODE_SORT_COMPLETE: "코드가 정렬되었습니다.",
   ID_BUILDER_CODE_SORT_AFTER_FIX_ERROR: "에러를 수정한 후 정렬해주세요",
   ID_DUMMY_RANKING_NOT_SUPPORT:
-    "랭킹 기능은 퍼블리싱을 한 후 위즈앱에서 확인하실 수 있습니다.",
+    "랭킹 기능은 퍼블리싱을 한 후 게임에서 직접 확인하실 수 있습니다.",
   ID_BUILDER_ERROR: "에러 발생",
   ID_BUILDER_LIVE_ACCESS_TITLE: "권한을 확인해주세요",
   ID_BUILDER_LIVE_ACCESS_MSG:
