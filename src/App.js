@@ -55,7 +55,7 @@ const App = () => {
             path="/"
             render={() => <HandleQueryString Component={Builder} />}
           />
-          <Route exact path="/sample/:mode/:sampleGame" component={Sample} />
+          <Route exact path="/sample/:mode/:projectId" component={Sample} />
           <Route
             exact
             path={[

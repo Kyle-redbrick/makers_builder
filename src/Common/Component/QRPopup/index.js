@@ -34,17 +34,18 @@ class QRPopup extends Component {
     const project = ans.data.projectInfo;
     let screenMode = project.screenMode;
     screenMode = screenMode.toLowerCase();
-    let sampleGame =
-      project.sampleGameURL.split("/")[
-        project.sampleGameURL.split("/").length - 1
-      ];
+    // let sampleGame =
+    //   project.sampleGameURL.split("/")[
+    //     project.sampleGameURL.split("/").length - 1
+    //   ];
 
     this.setState({
-      QRLink: `${process.env.REACT_APP_QR_LINK}/${screenMode}/${sampleGame}`,
+      QRLink: `${process.env.REACT_APP_QR_LINK}/${screenMode}/${pId}`,
     });
   };
 
   componentDidMount = () => {
+    console.log("props :", this.props);
     const pId = window.location.pathname.slice(1);
     this.loadSaasProject(pId);
     /*for css */
