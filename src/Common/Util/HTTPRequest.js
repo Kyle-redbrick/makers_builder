@@ -445,6 +445,12 @@ export const getSaasDevelopingProject = (pId) => {
   );
 };
 
+export const getSampleGameURL = (pId) => {
+  return fetchSaasRequest(
+    URL.API_SAAS_SERVER + `project/sampleGame/url?projectId=${pId}`
+  );
+};
+
 export const getUserInfo = () => {
   return fetchSaasRequest(URL.API_SAAS_SERVER + "user/info", "GET");
 };

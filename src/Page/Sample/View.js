@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import GameRanking from "../../Common/Component/GameRanking";
 import "./index.scss";
 
 const View = (props) => {
   const [iframeWidth, setIframeWidth] = useState("100vw");
   const [iframeHeight, setIframeHeight] = useState("100vh");
-
-  let mode = props.mode;
+  const { projectId, isRankingShow, setIsRankingShow, mode } = props;
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -40,11 +40,20 @@ const View = (props) => {
       window.removeEventListener("resize", updateDimensions);
     };
   }, [mode]);
-
+  console.log("여기", props.sampleGameURL);
   return (
     <div className="gameView">
-      <div className="gameWrapper">
+      {isRankingShow && (
+        <div className="gameRanking">
+          <GameRanking
+            isRankingShow={isRankingShow}
+            setIsRankingShow={setIsRankingShow}
+          />
+        </div>
+      )}
+      <div className={`gameWrapper ${isRankingShow ? "blur" : ""}`}>
         <iframe
+          id="makers__iframe"
           title="guide"
           src={props.sampleGameURL}
           style={{

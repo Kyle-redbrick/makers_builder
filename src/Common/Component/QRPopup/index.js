@@ -44,10 +44,9 @@ class QRPopup extends Component {
     });
   };
 
-  componentDidMount = () => {
-    console.log("props :", this.props);
+  componentDidMount = async () => {
     const pId = window.location.pathname.slice(1);
-    this.loadSaasProject(pId);
+    await this.loadSaasProject(pId);
     /*for css */
     const popup = document.querySelector(".QRPopup").closest(".popup_contents");
     popup.style.borderRadius = "20px";

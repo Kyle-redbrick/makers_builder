@@ -1,10 +1,3 @@
-%positionCenter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .gameView {
   position: relative;
   display: flex;
@@ -16,10 +9,24 @@
   background-color: black;
   overflow: hidden;
 
+  .gameRanking {
+    z-index: 100;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   .gameWrapper {
+    z-index: 1;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &.blur {
+      filter: blur(7px);
+      -webkit-filter: blur(7px);
+    }
   }
 }

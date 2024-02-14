@@ -8,36 +8,38 @@ import rankBgImage from "../../../Image/rank-icon.svg";
 import rankNoneImage from "../../../Image/group.svg";
 import guestProfileImage from "../../../Image/guest-profile.svg";
 import closeBtnImage from "../../../Image/close-btn.svg";
-import { getGuestId } from "../../../Common/Util/GuestIdUtil"
+import { getGuestId } from "../../../Common/Util/GuestIdUtil";
 
 class GameRanking extends Component {
-  state = {
-    data: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+    };
+  }
 
   async componentDidMount() {
-    const { pId, isAsc } = this.props;
-    try {
-      let response;
-      if (isAsc) {
-        response = await request.getGameRankingAsc({ pId });
-      } else {
-        response = await request.getGameRanking({ pId });
-      }
-      const json = await response.json();
-      this.setState({ data: json });
-    } catch (e) {
-      console.error(e);
-    }
+    //   const { pId, isAsc } = this.props;
+    //   try {
+    //     let response;
+    //     if (isAsc) {
+    //       response = await request.getGameRankingAsc({ pId });
+    //     } else {
+    //       response = await request.getGameRanking({ pId });
+    //     }
+    //     const json = await response.json();
+    //     this.setState({ data: json });
+    //   } catch (e) {
+    //     console.error(e);
+    //   }
   }
 
   onClickClose = () => {
-    this.props.handleRankingHide();
+    this.props.setIsRankingShow(!this.props.isRankingShow);
   };
 
   render() {
-    const { formatNumber } = this.props.intl;
-    const { data } = this.state;
+    // const { data } = this.state;
 
     let rankingId;
 
@@ -49,18 +51,22 @@ class GameRanking extends Component {
 
     let userRank = -1;
     let userScore = 0;
-    data.forEach((ranking, idx) => {
-      if (ranking.user && ranking.user.email === rankingId) {
-        userRank = idx + 1;
-        userScore = formatNumber(ranking.score);
-      } else {
-        if (ranking.guestId === rankingId) {
-          userRank = idx + 1;
-          userScore = formatNumber(ranking.score);
-        }
-      }
-    });
-
+    // data.forEach((ranking, idx) => {
+    //   if (ranking.user && ranking.user.email === rankingId) {
+    //     userRank = idx + 1;
+    //     userScore = formatNumber(ranking.score);
+    //   } else {
+    //     if (ranking.guestId === rankingId) {
+    //       userRank = idx + 1;
+    //       userScore = formatNumber(ranking.score);
+    //     }
+    //   }
+    // });
+    let data = [
+      { score: "1", guestId: "1", user: "1" },
+      { score: "2", guestId: "2", user: "2" },
+      { score: "3", guestId: "3", user: "3" },
+    ];
     return (
       <div className="GameRankingContainer">
         <div className="Header">
@@ -98,7 +104,7 @@ class GameRanking extends Component {
                                 <p
                                   className="Body__item__icon"
                                   style={{
-                                    backgroundImage: `url(${user.icon})`
+                                    backgroundImage: `url(${user.icon})`,
                                   }}
                                 />
                               )}
@@ -106,7 +112,7 @@ class GameRanking extends Component {
                                 <p
                                   className="Body__item__icon"
                                   style={{
-                                    backgroundImage: `url(${guestProfileImage})`
+                                    backgroundImage: `url(${guestProfileImage})`,
                                   }}
                                 />
                               )}
@@ -116,7 +122,7 @@ class GameRanking extends Component {
                                 {user && user.name}
                                 {!user && guestId}
                               </p>
-                              <p>{formatNumber(score)}</p>
+                              <p>{score}</p>
                             </td>
                           </tr>
                         </tbody>
@@ -133,9 +139,4 @@ class GameRanking extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    email: state.userinfo.email
-  }),
-  {}
-)(injectIntl(GameRanking));
+export default GameRanking;
