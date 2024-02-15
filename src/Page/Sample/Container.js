@@ -7,28 +7,8 @@ const Container = (props) => {
   const { mode, projectId } = props.match.params;
   const [sampleGameURL, setSampleGameURL] = useState("");
   const [isRankingShow, setIsRankingShow] = useState(false);
-  const email = localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo")).email
-    : undefined;
-
-  const sendMessageToIframe = (data) => {
-    document
-      .getElementById("makers__iframe")
-      .contentWindow.postMessage(
-        { message: JSON.stringify(data), source: "makers", type: "gameData" },
-        "*"
-      );
-  };
-
-  const getGameDataDefaultParams = () => {
-    let params = { projectId: projectId };
-    if (email) {
-      params.email = email;
-    } else {
-      params.guestId = getGuestId();
-    }
-    return params;
-  };
+  const [isSaved, setIsSaved] = useState(false);
+  const [isAsc, setIsAsc] = useState(true);
 
   const gameEventHandler = (event) => {
     if (event.data.source) {
@@ -37,17 +17,52 @@ const Container = (props) => {
           const { type, data } = JSON.parse(event.data.message);
           switch (type) {
             case "showRanking":
-              // this.handleRankingShow(false);
+              if (isSaved) {
+                setIsAsc(false);
+                setIsRankingShow(true);
+              } else {
+                setTimeout(() => {
+                  setIsAsc(false);
+                  setIsRankingShow(true);
+                }, 300);
+              }
               break;
             case "showRankingAscending":
-              // this.handleRankingShow(true);
+              if (isSaved) {
+                setIsAsc(true);
+                setIsRankingShow(true);
+              } else {
+                setTimeout(() => {
+                  setIsAsc(true);
+                  setIsRankingShow(true);
+                }, 300);
+              }
               break;
             case "hideRanking":
               setIsRankingShow(false);
-              // this.handleRankingHide();
               break;
             case "saveScore":
-              setIsRankingShow(true);
+              const saveScoreFunction = async ({ projectId, data }) => {
+                let body = {
+                  projectId: projectId,
+                  score: data,
+                };
+                if (!localStorage.getItem("makersToken")) {
+                  let userGuestId = getGuestId();
+                  body.guestId = userGuestId;
+                }
+                let response = await request
+                  .saveSampleGameRanking(body)
+                  .then((res) => res.json())
+                  .then((json) => {
+                    localStorage.setItem("ascId", json.data.ascId);
+                    localStorage.setItem("descId", json.data.descId);
+                    setIsSaved(true);
+                  });
+                console.log(response);
+              };
+              saveScoreFunction({ projectId, data });
+              // setIsRankingShow(true);
               // this.saveScore(data);
               break;
             case "saveGameData":
@@ -78,7 +93,7 @@ const Container = (props) => {
       try {
         const response = await request.getSampleGameURL(projectId);
         const ans = await response.json();
-        console.log("ans :", ans);
+        console.log(ans);
         const sampleGame = ans.data.sampleGameURL;
         const url = `${process.env.REACT_APP_THUMBNAIL_ALI}${sampleGame}`;
         setSampleGameURL(url);
@@ -93,6 +108,7 @@ const Container = (props) => {
   return (
     <View
       {...props}
+      isAsc={isAsc}
       sampleGameURL={sampleGameURL}
       mode={mode}
       projectId={projectId}

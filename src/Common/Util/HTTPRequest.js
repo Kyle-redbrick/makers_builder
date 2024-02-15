@@ -28,6 +28,24 @@ export const fetchSaasRequest = (url, method, param) => {
 ///////////////////////////////////////////////////////////////////////////////
 /** SAAS */
 
+export const getSampleGameRanking = ({ projectId, isAsc }) => {
+  if (isAsc) {
+    return fetchSaasRequest(
+      URL.API_SAAS_SERVER + `gameRanking?projectId=${projectId}&order=asc`,
+      "GET"
+    );
+  } else {
+    return fetchSaasRequest(
+      URL.API_SAAS_SERVER + `gameRanking?projectId=${projectId}&order=desc`,
+      "GET"
+    );
+  }
+};
+
+export const saveSampleGameRanking = (props) => {
+  return fetchSaasRequest(URL.API_SAAS_SERVER + `gameRanking`, "PUT", props);
+};
+
 export const getPythonItembooks = () => {
   return fetchSaasRequest(URL.API_SAAS_SERVER + `itemBook/list`, "GET");
 };

@@ -19,19 +19,15 @@ class GameRanking extends Component {
   }
 
   async componentDidMount() {
-    //   const { pId, isAsc } = this.props;
-    //   try {
-    //     let response;
-    //     if (isAsc) {
-    //       response = await request.getGameRankingAsc({ pId });
-    //     } else {
-    //       response = await request.getGameRanking({ pId });
-    //     }
-    //     const json = await response.json();
-    //     this.setState({ data: json });
-    //   } catch (e) {
-    //     console.error(e);
-    //   }
+    const { projectId, isAsc } = this.props;
+
+    let response = await request
+      .getSampleGameRanking({ projectId, isAsc })
+      .then((res) => res.json())
+      .then((json) => {
+        this.setState({ data: json.data.gameRanking });
+      });
+    console.log(response);
   }
 
   onClickClose = () => {
@@ -39,34 +35,19 @@ class GameRanking extends Component {
   };
 
   render() {
-    // const { data } = this.state;
-
-    let rankingId;
-
-    if (this.props.email) {
-      rankingId = this.props.email;
-    } else {
-      rankingId = getGuestId();
-    }
+    const { data } = this.state;
+    const ascId = localStorage.getItem("ascId");
+    const descId = localStorage.getItem("descId");
 
     let userRank = -1;
     let userScore = 0;
-    // data.forEach((ranking, idx) => {
-    //   if (ranking.user && ranking.user.email === rankingId) {
-    //     userRank = idx + 1;
-    //     userScore = formatNumber(ranking.score);
-    //   } else {
-    //     if (ranking.guestId === rankingId) {
-    //       userRank = idx + 1;
-    //       userScore = formatNumber(ranking.score);
-    //     }
-    //   }
-    // });
-    let data = [
-      { score: "1", guestId: "1", user: "1" },
-      { score: "2", guestId: "2", user: "2" },
-      { score: "3", guestId: "3", user: "3" },
-    ];
+    data.forEach((ranking, idx) => {
+      if (ranking.id === ascId || ranking.id === descId) {
+        userRank = idx + 1;
+        userScore = ranking.score;
+      }
+    });
+
     return (
       <div className="GameRankingContainer">
         <div className="Header">
@@ -88,7 +69,7 @@ class GameRanking extends Component {
           </div>
           <div className="Body__content">
             {data.map((rank, idx) => {
-              const { score, guestId, user } = rank;
+              const { score, guestId, user, name, profileImage } = rank;
               const ranking = idx + 1;
               const target = ranking === userRank ? "user" : "";
               return (
@@ -100,15 +81,15 @@ class GameRanking extends Component {
                           <tr className="Body__row">
                             <td className="Body__item__ranking">{ranking}</td>
                             <td>
-                              {user && (
+                              {profileImage && (
                                 <p
                                   className="Body__item__icon"
                                   style={{
-                                    backgroundImage: `url(${user.icon})`,
+                                    backgroundImage: `url(${profileImage.THUMBNAIL_ALI()})`,
                                   }}
                                 />
                               )}
-                              {!user && (
+                              {!profileImage && (
                                 <p
                                   className="Body__item__icon"
                                   style={{
@@ -118,10 +99,7 @@ class GameRanking extends Component {
                               )}
                             </td>
                             <td className="Body__item__name">
-                              <p>
-                                {user && user.name}
-                                {!user && guestId}
-                              </p>
+                              <p>{name || guestId}</p>
                               <p>{score}</p>
                             </td>
                           </tr>

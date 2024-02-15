@@ -17,7 +17,7 @@ class Container extends Component {
       myPublisheds: [],
       currentPage: 1,
     };
-    this.pageSize = 35;
+    this.pageSize = 45;
     this.projectsRef = React.createRef();
   }
 
