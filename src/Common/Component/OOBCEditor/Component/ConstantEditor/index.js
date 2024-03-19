@@ -11,7 +11,7 @@ export default function (props) {
     onClickOverlay,
     onClickConfirm,
     onClickCancel,
-    onChangeData
+    onChangeData,
   } = props;
   return (
     <div
@@ -48,7 +48,7 @@ class ConstantEditor extends Component {
     this.state = {
       type: undefined,
       data: undefined,
-      focusedInputId: "oobceditor_constanteditor_input"
+      focusedInputId: "oobceditor_constanteditor_input",
     };
   }
   componentDidMount() {
@@ -150,7 +150,6 @@ class ConstantEditor extends Component {
             onClick={this.onClickInput}
             value={x}
             autoFocus
-            disabled
           />
         </div>
         <div
@@ -165,19 +164,19 @@ class ConstantEditor extends Component {
                 ? ""
                 : " oobceditor_constanteditor_input-blurred"
             }`}
+            onClick={this.onClickInput}
             value={y}
             autoFocus
-            disabled
           />
         </div>
       </>
     );
   }
 
-  onFocusInput = e => {
+  onFocusInput = (e) => {
     e.currentTarget.select();
   };
-  onChangeInput = e => {
+  onChangeInput = (e) => {
     const { type } = this.state;
     const newValue = e.currentTarget.value;
     switch (type) {
@@ -191,13 +190,13 @@ class ConstantEditor extends Component {
         break;
     }
   };
-  onClickInput = e => {
+  onClickInput = (e) => {
     const inputId = e.currentTarget.id;
     this.setState({ focusedInputId: inputId });
   };
 
-  onKeyDown = e => {
-    if(e.key === "Enter") {
+  onKeyDown = (e) => {
+    if (e.key === "Enter") {
       this.onClickConfirm();
     } else {
       switch (this.state.type) {
@@ -209,9 +208,9 @@ class ConstantEditor extends Component {
           break;
       }
     }
-  }
-  onNumberKeyDown = e => {
-    switch(e.key) {
+  };
+  onNumberKeyDown = (e) => {
+    switch (e.key) {
       case "1":
       case "2":
       case "3":
@@ -233,7 +232,7 @@ class ConstantEditor extends Component {
       default:
         break;
     }
-  }
+  };
 
   getKeypadForBlockType(type) {
     let keypad;
@@ -261,23 +260,23 @@ class ConstantEditor extends Component {
       "0",
       ".",
       "-",
-      "delete"
+      "delete",
     ];
     return (
       <div className="oobceditor_constanteditor_numpads">
-        {numpads.map(numpad => (
+        {numpads.map((numpad) => (
           <div
             key={numpad}
             className={`oobceditor_constanteditor_numpad oobceditor_constanteditor_numpad-${numpad}`}
             onClick={() => {
               this.onClickNumpad(numpad);
             }}
-            onTouchStart={e => {
+            onTouchStart={(e) => {
               e.currentTarget.classList.add(
                 "oobceditor_constanteditor_numpad-touched"
               );
             }}
-            onTouchEnd={e => {
+            onTouchEnd={(e) => {
               e.currentTarget.classList.remove(
                 "oobceditor_constanteditor_numpad-touched"
               );
@@ -299,7 +298,7 @@ class ConstantEditor extends Component {
       </div>
     );
   }
-  onClickNumpad = numpad => {
+  onClickNumpad = (numpad) => {
     let value = this.getFocusedInputValue();
     switch (numpad) {
       case ".":
@@ -380,19 +379,19 @@ class ConstantEditor extends Component {
     const onClick = {
       clear: this.onClickClear,
       cancel: this.onClickCancel,
-      confirm: this.onClickConfirm
+      confirm: this.onClickConfirm,
     }[id];
     return (
       <button
         id={`oobceditor_constanteditor_button-${id}`}
         className={`oobceditor_constanteditor_button oobceditor_constanteditor_button-${id}`}
         onClick={onClick}
-        onTouchStart={e => {
+        onTouchStart={(e) => {
           e.currentTarget.classList.add(
             "oobceditor_constanteditor_button-touched"
           );
         }}
-        onTouchEnd={e => {
+        onTouchEnd={(e) => {
           e.currentTarget.classList.remove(
             "oobceditor_constanteditor_button-touched"
           );
@@ -437,7 +436,7 @@ class ConstantEditor extends Component {
     } else if (type === BLOCK.POSITION) {
       data = {
         x: parseFloat(data.x) || 0,
-        y: parseFloat(data.y) || 0
+        y: parseFloat(data.y) || 0,
       };
     }
     if (onClickConfirm) {
@@ -462,7 +461,6 @@ class ConstantEditor extends Component {
 }
 
 class KeyConstantEditor extends Component {
-
   componentDidMount() {
     window.addEventListener("keydown", this.onKeyDown);
   }
@@ -470,23 +468,19 @@ class KeyConstantEditor extends Component {
     window.removeEventListener("keydown", this.onKeyDown);
   }
 
-  onKeyDown = e => {
-    if(this.keysPrevented.includes(e.key)) {
+  onKeyDown = (e) => {
+    if (this.keysPrevented.includes(e.key)) {
       return;
     }
-    
+
     e.preventDefault();
     this.props.onClickConfirm(this.props.block, this.convertKey(e.key));
-  }
+  };
   get keysPrevented() {
-    return [
-      "Meta",
-      "HangulMode",
-      "HanjaMode"
-    ]
+    return ["Meta", "HangulMode", "HanjaMode"];
   }
   convertKey(key) {
-    switch(key) {
+    switch (key) {
       case "ArrowUp":
         return "up";
       case "ArrowDown":
@@ -511,6 +505,6 @@ class KeyConstantEditor extends Component {
           {Localization.formatWithId("ID_OOBC_CONSTANTEDITOR_KEY_MESSAGE")}
         </div>
       </div>
-    )
+    );
   }
 }

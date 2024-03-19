@@ -18,7 +18,6 @@ class Block {
   get category() {
     return null;
   }
-  
 
   clone(parent) {
     const clone = Object.assign(
@@ -28,18 +27,15 @@ class Block {
     clone.id = Context.generateId();
     clone.parent = parent;
     clone.children =
-      clone.children && this.children.map(child => child.clone(clone));
+      clone.children && this.children.map((child) => child.clone(clone));
     return clone;
   }
   isEqual(block) {
-    if(!(block instanceof Block)) {
+    if (!(block instanceof Block)) {
       return false;
     }
 
-    return (
-      this.type === block.type &&
-      this.data === block.data
-    );
+    return this.type === block.type && this.data === block.data;
   }
 
   createInstanceBlockWith(prototypeBlock) {
@@ -129,7 +125,7 @@ class Block {
     return [];
   }
   filterPrototypeBlocksReplaceable(prototypeBlocks) {
-    return prototypeBlocks.filter(block => this.checkBlockReplaceable(block));
+    return prototypeBlocks.filter((block) => this.checkBlockReplaceable(block));
   }
   checkBlockReplaceable(block) {
     if (!this.parent.isAvailableParentFor(block)) {
@@ -185,7 +181,7 @@ class Block {
   }
 
   filterPrototypeBlocksDisabled(prototypeBlocks) {
-    return prototypeBlocks.filter(block => block.isDisabledFor(this));
+    return prototypeBlocks.filter((block) => block.isDisabledFor(this));
   }
   isDisabledFor(block) {
     return false;
@@ -225,7 +221,7 @@ class Block {
         if (block.match(whereEmpty)) {
           blocks.push(block);
         }
-      }
+      },
     });
     if (blocks.length > 0) {
       return blocks[0];
@@ -240,8 +236,7 @@ class Block {
   }
   match(where) {
     const { type, id, state, grammar, data } = where;
-    if (type && type !== this.type)
-      return false;
+    if (type && type !== this.type) return false;
     if (id && id !== this.id) return false;
     if (state && state !== this.state) return false;
     if (grammar && grammar !== this.grammar) return false;
@@ -287,7 +282,7 @@ class Block {
       Variable: Variable,
       Operator: Operator,
       Callback: Callback,
-      FunctionBlock: FunctionBlock
+      FunctionBlock: FunctionBlock,
     }[name];
   }
   static getCompatibleJSONFrom(json, parent) {
@@ -296,7 +291,7 @@ class Block {
       state: json.state,
       grammar: json.grammar,
       data: json.data,
-      children: json.children
+      children: json.children,
     };
     if (json.blockType) {
       compatibleJSON.constructor =
@@ -353,15 +348,15 @@ class Block {
     const block = new Constructor({
       ...compatibleJSON,
       state: STATE.INSTANCE,
-      parent
+      parent,
     });
     if (compatibleJSON.children) {
       if (constructorName === BLOCK.CALLBACK) {
-        block.children = compatibleJSON.children.map(child =>
+        block.children = compatibleJSON.children.map((child) =>
           Line.fromJSON(child, block)
         );
       } else {
-        block.children = compatibleJSON.children.map(child =>
+        block.children = compatibleJSON.children.map((child) =>
           Block.fromJSON(child, block)
         );
       }
@@ -374,8 +369,8 @@ class Block {
       grammar: this.grammar,
       data: this.data,
       children: this.children
-        ? this.children.map(child => child.toJSON())
-        : undefined
+        ? this.children.map((child) => child.toJSON())
+        : undefined,
     };
   }
   toJavascript() {
@@ -436,7 +431,7 @@ export class GameObject extends Block {
           prototypeBlock = Text.getPrototypeBlock(gameObject);
           break;
         case "component":
-          if(gameObject.subtype === "dpad") {
+          if (gameObject.subtype === "dpad") {
             prototypeBlock = DPad.getPrototypeBlock(gameObject);
           } else {
             prototypeBlock = Joystick.getPrototypeBlock(gameObject);
@@ -476,7 +471,7 @@ export class GameObject extends Block {
         const childCode = child.toJavascript();
         return `getSprite("${this.data}")${childCode}`;
       } else {
-        if(this.parent.type === BLOCK.ACTION && this.parent.data === "set") {
+        if (this.parent.type === BLOCK.ACTION && this.parent.data === "set") {
           return `getSprite("${this.data}")`;
         } else {
           return `"${this.data}"`;
@@ -495,10 +490,10 @@ export class Sprite extends GameObject {
 
   getDefaultChildren() {
     if (this.grammar === GRAMMAR.OBJECTIVE) {
-      if(
-        this.parent instanceof Action
-        && this.parent.data === "set"
-        && this.parent.parent instanceof Variable  
+      if (
+        this.parent instanceof Action &&
+        this.parent.data === "set" &&
+        this.parent.parent instanceof Variable
       ) {
         return [new Block({ state: STATE.INSTANCE, parent: this })];
       }
@@ -638,7 +633,7 @@ export class Property extends Block {
       "bounceX",
       "bounceY",
       "accelerationX",
-      "accelerationY"
+      "accelerationY",
     ];
   }
   getAvailableChildTypesAt() {
@@ -762,7 +757,7 @@ export class Action extends Block {
       case "bind":
         return [
           new Block({ state: STATE.INSTANCE, parent: this }),
-          new Block({ state: STATE.INSTANCE, parent: this })
+          new Block({ state: STATE.INSTANCE, parent: this }),
         ];
       case "onSwipe":
       case "onOverlap":
@@ -772,7 +767,7 @@ export class Action extends Block {
       case "onSignal":
         return [
           new Block({ state: STATE.INSTANCE, parent: this }),
-          new Callback({ state: STATE.INSTANCE, parent: this })
+          new Callback({ state: STATE.INSTANCE, parent: this }),
         ];
       default:
         return [];
@@ -838,7 +833,7 @@ export class Action extends Block {
       "resetTimer",
       "onShake",
       "speak",
-      "vibrate"
+      "vibrate",
     ];
   }
   isAvailableParentFor(block) {
@@ -860,7 +855,15 @@ export class Action extends Block {
     switch (this.data) {
       case "set":
         if (this.parent instanceof Variable) {
-          return [NumberBlock, StringBlock, BooleanBlock, Time, GameObject, Variable, Operator];
+          return [
+            NumberBlock,
+            StringBlock,
+            BooleanBlock,
+            Time,
+            GameObject,
+            Variable,
+            Operator,
+          ];
         } else if (this.parent instanceof Property) {
           return [...this.parent.getPropertyType(), Variable, Operator];
         } else {
@@ -871,9 +874,11 @@ export class Action extends Block {
       case "playAnimation":
         return [Animation, Variable];
       case "moveTo":
-      case "goTo":
-      case "turnTo":
         return [Sprite, Text, Position, Random, Touch];
+      case "goTo":
+        return [Sprite, Text, Position, Random, Touch];
+      case "turnTo":
+        return [Sprite, Text, Touch];
       case "wait":
       case "turn":
       case "addSize":
@@ -894,7 +899,7 @@ export class Action extends Block {
         return (
           [
             [Direction, Axis],
-            [NumberBlock, Variable]
+            [NumberBlock, Variable],
           ][index] || []
         );
       case "onSwipe":
@@ -911,7 +916,7 @@ export class Action extends Block {
         return (
           [
             [Sprite, Text],
-            [NumberBlock, Variable]
+            [NumberBlock, Variable],
           ][index] || []
         );
       case "sendSignal":
@@ -1163,7 +1168,7 @@ export class Action extends Block {
   toJavascriptForBind() {
     const gameObjectId = this.children[0].toJavascript();
     const maxSpeed = this.children[1].toJavascript();
-    if(this.parent instanceof DPad) {
+    if (this.parent instanceof DPad) {
       return `.onDpad(function(direction){
   var sprite = getSprite(${gameObjectId})
   var speed = ${maxSpeed}
@@ -1200,7 +1205,7 @@ export class Action extends Block {
     if (this.parent instanceof Screen) {
       touchApiName = {
         onTouch: "onScreenClick",
-        onTouchUp: "onScreenClickUp"
+        onTouchUp: "onScreenClickUp",
       }[touchApiName];
     }
     return `.${touchApiName}(${args})`;
@@ -1248,7 +1253,7 @@ export class Constant extends Block {
       ...Random.getPrototypeBlocks(),
       ...Scene.getPrototypeBlocks(sceneIds),
       ...Axis.getPrototypeBlocks(),
-      ...Time.getPrototypeBlocks()
+      ...Time.getPrototypeBlocks(),
     ];
     return prototypeBlocks;
   }
@@ -1295,7 +1300,7 @@ export class StringBlock extends Constant {
 
   static getPrototypeBlocks(strings = []) {
     const prototypeBlocks = [
-      new StringBlock({ data: null, state: STATE.PROTOTYPE })
+      new StringBlock({ data: null, state: STATE.PROTOTYPE }),
     ];
     for (let i = 0; i < strings.length; i++) {
       const string = strings[i];
@@ -1316,7 +1321,7 @@ export class BooleanBlock extends Constant {
   static getPrototypeBlocks() {
     return [
       new BooleanBlock({ data: "true", state: STATE.PROTOTYPE }),
-      new BooleanBlock({ data: "false", state: STATE.PROTOTYPE })
+      new BooleanBlock({ data: "false", state: STATE.PROTOTYPE }),
     ];
   }
 
@@ -1337,7 +1342,7 @@ export class Direction extends Constant {
       new Direction({ data: "up", state: STATE.PROTOTYPE }),
       new Direction({ data: "down", state: STATE.PROTOTYPE }),
       new Direction({ data: "left", state: STATE.PROTOTYPE }),
-      new Direction({ data: "right", state: STATE.PROTOTYPE })
+      new Direction({ data: "right", state: STATE.PROTOTYPE }),
     ];
   }
 }
@@ -1381,7 +1386,7 @@ export class Position extends Constant {
   }
 
   isEqual(block) {
-    if(!(block instanceof Block)) {
+    if (!(block instanceof Block)) {
       return false;
     }
 
@@ -1450,7 +1455,7 @@ export class Axis extends Constant {
   static getPrototypeBlocks() {
     return [
       new Axis({ data: "x", state: STATE.PROTOTYPE }),
-      new Axis({ data: "y", state: STATE.PROTOTYPE })
+      new Axis({ data: "y", state: STATE.PROTOTYPE }),
     ];
   }
 }
@@ -1499,12 +1504,12 @@ export class Util extends Block {
       case "repeat":
         return [
           new Block({ state: STATE.INSTANCE, parent: this }),
-          new Callback({ state: STATE.INSTANCE, parent: this })
+          new Callback({ state: STATE.INSTANCE, parent: this }),
         ];
       case "else":
         return [new Callback({ state: STATE.INSTANCE, parent: this })];
       case "clone":
-        if(this.grammar === GRAMMAR.SUBJECT) {
+        if (this.grammar === GRAMMAR.SUBJECT) {
           return [new Block({ state: STATE.INSTANCE, parent: this })];
         } else {
           return [];
@@ -1523,13 +1528,13 @@ export class Util extends Block {
       new Util({ data: "clone", state: STATE.PROTOTYPE }),
       ...Mobile.getPrototypeBlocks(),
       ...Ranking.getPrototypeBlocks(),
-      ...Timer.getPrototypeBlocks()
+      ...Timer.getPrototypeBlocks(),
     ];
     return prototypeBlocks;
   }
   isAvailableParentFor(block) {
     if (this.data === "clone") {
-      if(block instanceof Util && block.data === "clone") {
+      if (block instanceof Util && block.data === "clone") {
         return false;
       }
 
@@ -1793,7 +1798,7 @@ export class Operator extends Block {
     } else {
       return [
         new Block({ state: STATE.INSTANCE, parent: this }),
-        new Block({ state: STATE.INSTANCE, parent: this })
+        new Block({ state: STATE.INSTANCE, parent: this }),
       ];
     }
   }
@@ -1812,7 +1817,7 @@ export class Operator extends Block {
       new Operator({ data: "<", state: STATE.PROTOTYPE }),
       new Operator({ data: "&&", state: STATE.PROTOTYPE }),
       new Operator({ data: "||", state: STATE.PROTOTYPE }),
-      new Operator({ data: "!", state: STATE.PROTOTYPE })
+      new Operator({ data: "!", state: STATE.PROTOTYPE }),
     ];
   }
   getAvailableChildTypesAt() {

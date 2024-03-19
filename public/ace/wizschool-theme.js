@@ -2,8 +2,8 @@ define("ace/theme/wizschool", [
   "require",
   "exports",
   "module",
-  "ace/lib/dom"
-], function(e, t, n) {
+  "ace/lib/dom",
+], function (e, t, n) {
   (t.isDark = !1),
     (t.cssClass = "ace-wizschool"),
     (t.cssText = `
@@ -40,7 +40,7 @@ define("ace/theme/wizschool", [
       background: var(--editorColorLine);
     }
     .ace-wizschool .ace_gutter-active-line {
-      background-color: var(--editorColorLine);
+      background-color: #008000;
     }
     .ace-wizschool .ace_marker-layer .ace_selected-word {
       border: 1px solid var(--editorColorSelection);
@@ -96,8 +96,8 @@ define("ace/theme/wizschool", [
   var r = e("../lib/dom");
   r.importCssString(t.cssText, t.cssClass);
 });
-(function() {
-  window.require(["ace/theme/wizschool"], function(m) {
+(function () {
+  window.require(["ace/theme/wizschool"], function (m) {
     if (typeof module == "object" && typeof exports == "object" && module) {
       module.exports = m;
     }

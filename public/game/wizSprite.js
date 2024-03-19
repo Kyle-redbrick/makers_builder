@@ -1191,9 +1191,9 @@ function setFunctions() {
     }
     message = String(message);
     this.stopSay();
-    // if (sec === undefined) {
-    //   sec = 1;
-    // }
+    if (sec === undefined) {
+      sec = 1;
+    }
     var text = "";
     for (var i = 0; i < message.length; i++) {
       text += message.charAt(i);

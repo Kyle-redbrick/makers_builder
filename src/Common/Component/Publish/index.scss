@@ -1,7 +1,7 @@
 .publishpopup {
   width: 570px;
   background-color: #1c1c1c;
-  padding: 20px 33px 29px 33px;
+  padding: 20px 33px 5px 33px;
   border-radius: 20px;
 
   /* header */
@@ -76,13 +76,14 @@
   .publishform__textarea {
     resize: none;
     width: calc(100% - 32px);
-    height: 100px;
+    height: 50px;
     border: none;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.1);
     padding: 13px 17px 13px 17px;
     font-size: 16px;
     color: #ffffff;
+    overflow-y: auto;
   }
   .publishform__textarea::placeholder {
     font-size: 13px;
@@ -99,8 +100,8 @@
   }
   .publishform__icon__img__wrapper {
     position: relative;
-    width: 130px;
-    height: 130px;
+    width: 110px;
+    height: 110px;
     border-radius: 16px;
     border: solid 1px rgba(255, 255, 255, 0.1);
     object-fit: cover;
@@ -108,8 +109,8 @@
     overflow: hidden;
 
     .publishform__icon__img {
-      width: 130px;
-      height: 130px;
+      width: 110px;
+      height: 110px;
     }
 
     .thumbnailIcon {
@@ -138,7 +139,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 15.5px;
+    margin-left: 5px;
     background-color: #343434;
   }
   .publishform__icon__button:hover {

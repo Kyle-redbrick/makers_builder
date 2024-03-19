@@ -57,10 +57,13 @@ export default function (props) {
     if (description === undefined) {
       return "";
     } else {
-      return description[language];
+      if (language) {
+        return description[language];
+      } else {
+        return description["ko"];
+      }
     }
   }
-
   return (
     <div className="EditorContainer__editor">
       <div id="ace-editor" />
