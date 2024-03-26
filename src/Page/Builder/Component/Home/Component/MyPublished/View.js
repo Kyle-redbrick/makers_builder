@@ -55,6 +55,7 @@ function View(props) {
             <div className="bottom__time">
               {item.updatedAt &&
                 item.updatedAt.split("T")[0].replaceAll("-", ".")}
+              <div>{item.isVisible ? "공개" : "비공개"}</div>
             </div>
           </div>
           <div
