@@ -214,7 +214,8 @@ class Container extends Component {
   };
 
   loadSaas = () => {
-    document.title = process.env.REACT_APP_INDEX_TITLE + " 빌더";
+    document.title =
+      process.env.REACT_APP_INDEX_TITLE === "dev" ? "dev 빌더" : "Build";
     const { pId } = this.state.params;
     if (pId) {
       this.loadSaasProject(pId);
