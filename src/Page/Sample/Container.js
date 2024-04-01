@@ -9,6 +9,7 @@ const Container = (props) => {
   const [isRankingShow, setIsRankingShow] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isAsc, setIsAsc] = useState(true);
+  const screenMode = mode.toLowerCase();
 
   const gameEventHandler = (event) => {
     if (event.data.source) {
@@ -110,7 +111,7 @@ const Container = (props) => {
       {...props}
       isAsc={isAsc}
       sampleGameURL={sampleGameURL}
-      mode={mode}
+      mode={screenMode}
       projectId={projectId}
       isRankingShow={isRankingShow}
       setIsRankingShow={setIsRankingShow}
