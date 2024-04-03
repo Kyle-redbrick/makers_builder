@@ -36,7 +36,17 @@ class Container extends Component {
       };
       let params = { state: state, screenMode: state.preview.screenMode };
 
-      request.updateSaasProject({ params, pId }).then((res) => res.json());
+      request
+        .updateSaasProject({ params, pId })
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.message === "You've logged in from other place") {
+            alert(
+              "로그아웃된 상태이므로 파일을 불러올 수 없습니다.\n창을 닫고 다시 로그인 후 이용해주세요.\n1개의 계정은 1개의 기기에서만 로그인할 수 있습니다."
+            );
+            window.location.replace(process.env.REACT_APP_CLASS_AI);
+          }
+        });
     }, 3000);
   }
 
